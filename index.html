@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.17-a">
+<meta name="app-version" content="2026.11.17-b">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -822,6 +822,7 @@
     <div class="sheet" role="dialog" aria-label="Menú">
       <h2>Editor de fotos</h2>
       <p class="ver">Versión <b id="verNum">?</b></p>
+      <button type="button" class="sbtn alt" id="btnRawPick" hidden>Abrir un RAW u otro archivo…</button>
       <button type="button" class="sbtn" id="btnUpd"><svg class="ic s"><use href="#i-reset"/></svg>Buscar actualización</button>
       <button type="button" class="sbtn alt" id="btnForce">Descargar de nuevo la app</button>
       <p id="updMsg" role="status" aria-live="polite"></p>
@@ -1918,7 +1919,8 @@ void main(){
 }`;
 
 const uniformDecl = ALL.map(p => `uniform float u_${p[0]};`).join('\n');
-const arr = k => 'float[8](' + BANDS.map((_, i) => `u_hsl${k}${i}`).join(',') + ')';
+const HSL_CEN = [0, 30, 60, 120, 180, 240, 280, 320];
+const hslCalls = HSL_CEN.map((c, i) => `    d += hslBand(hsv.x, ${c.toFixed(1)}, u_hslH${i}, u_hslS${i}, u_hslL${i});`).join('\n');
 
 const FS = `#version 300 es
 precision highp float;
@@ -1967,7 +1969,6 @@ const float GRAIN_AMP = 0.117;   // desviación típica máxima del grano (en es
 ${uniformDecl}
 
 const vec3 LUMA = vec3(0.2126, 0.7152, 0.0722);
-const float CENTERS[8] = float[8](0.0, 30.0, 60.0, 120.0, 180.0, 240.0, 280.0, 320.0);
 
 float hash12(vec2 p){
   vec3 p3 = fract(vec3(p.xyx) * .1031);
@@ -2002,12 +2003,23 @@ float bandNoise(vec2 p, float sigma, float seed){
 }
 // Intensidad del grano según el tono, medida en tus exportaciones de VSCO (33 nodos, de 0 a 1 en pasos de 1/32; máximo = 1).
 // Sube casi lineal desde el negro, el máximo está cerca de 150/255 y cae hasta ~0,15 en blanco puro. Es la misma en los tres niveles.
-const float GT[33] = float[33](0.0, 0.083, 0.156, 0.227, 0.304, 0.375, 0.451, 0.522, 0.588, 0.655, 0.716, 0.771, 0.833, 0.874, 0.908, 0.944,
-                               0.968, 0.986, 0.996, 1.0, 0.989, 0.966, 0.943, 0.908, 0.864, 0.81, 0.746, 0.667, 0.585, 0.493, 0.385, 0.275, 0.146);
+float gtNode(int i){
+  int q = i / 4, r = i - (i / 4) * 4;
+  vec4 v = q == 0 ? vec4(0.0, 0.083, 0.156, 0.227)
+         : q == 1 ? vec4(0.304, 0.375, 0.451, 0.522)
+         : q == 2 ? vec4(0.588, 0.655, 0.716, 0.771)
+         : q == 3 ? vec4(0.833, 0.874, 0.908, 0.944)
+         : q == 4 ? vec4(0.968, 0.986, 0.996, 1.0)
+         : q == 5 ? vec4(0.989, 0.966, 0.943, 0.908)
+         : q == 6 ? vec4(0.864, 0.81, 0.746, 0.667)
+         : q == 7 ? vec4(0.585, 0.493, 0.385, 0.275)
+         :          vec4(0.146);
+  return r == 0 ? v.x : r == 1 ? v.y : r == 2 ? v.z : v.w;
+}
 float grainCurve(float l){
   float x = clamp(l, 0.0, 1.0) * 32.0;
   int i = int(min(floor(x), 31.0));
-  return mix(GT[i], GT[i + 1], x - float(i));
+  return mix(gtNode(i), gtNode(i + 1), x - float(i));
 }
 // Cada canal recibe el grano según su propio tono (85 %) y el resto según el brillo: así un color saturado no pierde ni gana grano de golpe
 const float GRAIN_PERCH = 0.85;
@@ -2046,6 +2058,12 @@ vec3 hsv2rgb(vec3 c){
 vec3 toLin(vec3 c){ return pow(max(c, 0.0), vec3(2.2)); }
 vec3 toSrgb(vec3 c){ return pow(max(c, 0.0), vec3(1.0/2.2)); }
 float hueDist(float h, float center){ return abs(mod(h*360.0 - center + 180.0, 360.0) - 180.0); }
+// Peso de una banda de color (HSL por colores) por su ajuste de tono, saturación y luminosidad
+vec3 hslBand(float hue, float cen, float dh, float ds, float dl){
+  float w = max(1.0 - hueDist(hue, cen) / 40.0, 0.0);
+  w = w*w*(3.0 - 2.0*w);
+  return w * vec3(dh, ds, dl);
+}
 
 // Desenfoque amplio por mipmap, suavizado con 5 muestras para que no se vean bloques
 vec3 blurAt(vec2 uv, float lod){
@@ -2487,17 +2505,11 @@ void main(){
 
   // HSL por colores
   if (uHslAny > 0.5){
-    float hH[8] = ${arr('H')};
-    float hS[8] = ${arr('S')};
-    float hL[8] = ${arr('L')};
     vec3 hsv = rgb2hsv(clamp(c, 0.0, 1.0));
     float sw = smoothstep(0.02, 0.2, hsv.y);
-    float dh = 0.0, ds = 0.0, dv = 0.0;
-    for (int i = 0; i < 8; i++){
-      float w = max(1.0 - hueDist(hsv.x, CENTERS[i]) / 40.0, 0.0);
-      w = w*w*(3.0 - 2.0*w);
-      dh += w * hH[i]; ds += w * hS[i]; dv += w * hL[i];
-    }
+    vec3 d = vec3(0.0);
+${hslCalls}
+    float dh = d.x, ds = d.y, dv = d.z;
     hsv.x = fract(hsv.x + dh * sw * 30.0 / 360.0);
     hsv.y = clamp(hsv.y * (1.0 + ds * sw), 0.0, 1.0);
     hsv.z = clamp(hsv.z * (1.0 + dv * sw * 0.5), 0.0, 1.0);
@@ -2585,7 +2597,7 @@ const UNIFORM_NAMES = ['uTex','uRes','uTexSize','uMv','uBypass','uHslAny','uOut'
 function buildProg(g){
   const mk = (type, src) => {
     const s = g.createShader(type); g.shaderSource(s, src); g.compileShader(s);
-    if (!g.getShaderParameter(s, g.COMPILE_STATUS)) { console.error(g.getShaderInfoLog(s)); alert('Error de shader: ' + g.getShaderInfoLog(s)); }
+    if (!g.getShaderParameter(s, g.COMPILE_STATUS)) { const lg = g.getShaderInfoLog(s); console.error(lg); let gpu = ''; try { const e = g.getExtension('WEBGL_debug_renderer_info'); gpu = e ? g.getParameter(e.UNMASKED_RENDERER_WEBGL) : g.getParameter(g.VERSION); } catch (er) {} window.__shaderErr = (window.__shaderErr || 0) + 1; if (window.__shaderErr < 2) alert('Error de shader (' + ((document.querySelector('meta[name=app-version]') || {}).content || '?') + ' · ' + gpu + '):\n' + lg); }
     return s;
   };
   const pr = g.createProgram();
@@ -5887,6 +5899,18 @@ function libBackfill(){
     }
   })();
   return libBfRun;
+}
+
+/* Android: con «image/*» a secas el sistema abre tu galería de fotos; con una lista de extensiones (RAW…) abre el explorador de archivos.
+   Por eso en Android el «+» y «Abrir» usan solo «image/*», y los RAW se eligen desde ☰ → «Abrir un RAW u otro archivo…». */
+const libIsAndroid = /Android/i.test(navigator.userAgent), libFullAccept = fileIn.accept;
+const libAcceptSet = full => { fileIn.accept = (libIsAndroid && !full) ? 'image/*' : libFullAccept; };
+if (libIsAndroid) {
+  libAcceptSet(false);
+  const lf = document.getElementById('layerFile'); if (lf) lf.accept = 'image/*';
+  const rb = document.getElementById('btnRawPick'); rb.hidden = false;
+  rb.onclick = () => { libSheet.hidden = true; libAcceptSet(true); fileIn.click(); };
+  ['change', 'cancel'].forEach(n => fileIn.addEventListener(n, () => libAcceptSet(false)));
 }
 </script>
 
