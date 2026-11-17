@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.16-c">
+<meta name="app-version" content="2026.11.16-d">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -545,26 +545,27 @@
   #libSheet .close,#libLooks .close{display:block;margin:18px auto 0;height:40px;padding:0 22px;border-radius:999px;color:var(--mut);font-weight:600}
   /* selección */
   #libSelX,#libSelN,#libSelAll,#libBar{display:none}
-  #libSelBtn{height:36px;min-width:0;padding:0 16px;border-radius:999px;background:var(--raise);font-size:13px}
   #libSelAll{height:36px;min-width:0;padding:0 14px;border-radius:999px;font-size:14px;color:var(--soft)}
   #libSelN{white-space:nowrap;margin-left:2px;font-size:16px;font-weight:650;letter-spacing:-.005em}
-  #lib.pick #libMenuBtn,#lib.pick #libBack,#lib.pick #libSelBtn,#lib.pick #libAdd{display:none}
+  #lib.pick #libMenuBtn,#lib.pick #libBack,#lib.pick #libAdd{display:none}
   #lib.pick #libSelX,#lib.pick #libSelAll{display:inline-flex}
   #lib.pick #libSelN{display:block}
-  #lib.pick #libBar{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:26px max(16px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:linear-gradient(0deg,#000 62%,rgba(0,0,0,0))}
+  #lib.pick #libBar{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:26px max(20px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:linear-gradient(0deg,#000 62%,rgba(0,0,0,0))}
   #libBarMsg{flex:1;min-width:0;color:var(--soft);font-size:13.5px;font-weight:550}
-  #libBar button{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 20px;border-radius:999px;background:#2c2c30;color:var(--txt);font-size:15px;font-weight:650;box-shadow:0 6px 20px rgba(0,0,0,.45)}
-  #libBar button:active{background:#38383e}
+  #libBar button:not(#libEditBtn){flex:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 20px;border-radius:999px;background:#2c2c30;color:var(--txt);font-size:15px;font-weight:650;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+  #libBar button:not(#libEditBtn):active{background:#38383e}
   #libBar button:disabled{opacity:.4}
   #libBar button .ic{width:22px;height:22px;stroke-width:1.6}
+  #libEditBtn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;padding:0;border-radius:50%;background:var(--acc);color:var(--onacc);box-shadow:0 8px 26px rgba(0,0,0,.6)}
+  #libEditBtn:active{background:#d4d4d8;transform:scale(.97)}
+  #libEditBtn:disabled{background:#2c2c31;color:#fff}
+  #libEditBtn .ic{width:28px;height:28px;stroke-width:1.5}
   #libBar #libDelBtn.arm{background:var(--warnbg);color:var(--warn)}
   #lib.work{pointer-events:none}
   #lib.work #libBar button,#lib.work #libSelAll,#lib.work #libSelX{opacity:.4}
-  .lc-chk{position:absolute;top:6px;left:6px;z-index:2;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.82);background:rgba(0,0,0,.3);color:transparent;box-shadow:0 1px 4px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent}
-  .lc-chk::before{content:"";position:absolute;inset:-9px}
+  .lc-chk{position:absolute;top:6px;left:6px;z-index:2;display:none;pointer-events:none;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.82);background:rgba(0,0,0,.3);color:transparent;box-shadow:0 1px 4px rgba(0,0,0,.5)}
   .lc-chk .ic{width:14px;height:14px;stroke-width:2.6}
-  .lc-chk:active{transform:scale(.9)}
-  #lib.pick .lc-chk{border-color:#fff;background:rgba(0,0,0,.4)}
+  #lib.pick .lc-chk{display:flex;border-color:#fff;background:rgba(0,0,0,.4)}
   .lc.picked{box-shadow:0 0 0 3px #fff}
   .lc.picked .lc-im img{opacity:.72}
   #lib .lc.picked .lc-chk{background:#fff;border-color:#fff;color:#0b0b0c}
@@ -575,7 +576,19 @@
   #libLookList .lk .ic{flex:none;width:20px;height:20px;color:var(--soft)}
   #libLookList .lk span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #libLooksNone{margin:6px 2px 0;color:var(--mut);font-size:14px;line-height:1.55}
-  #lib.pick #libToast{bottom:calc(98px + env(safe-area-inset-bottom))}
+  #lib.pick #libToast{bottom:calc(110px + env(safe-area-inset-bottom))}
+  .lc-open{-webkit-tap-highlight-color:transparent}
+  /* barra de selección en pantallas estrechas */
+  @media (max-width:400px){#libBar{gap:8px}#libBar button:not(#libEditBtn){padding:0 14px;gap:6px;font-size:14px}}
+  @media (max-width:340px){#libBar button:not(#libEditBtn):not(.arm){width:52px;padding:0}#libBar #libLookBtn span,#libBar #libDelBtn:not(.arm) span{display:none}}
+  @media (max-height:500px){#libEditBtn{width:54px;height:54px}#libBar button:not(#libEditBtn){height:46px}}
+  /* vista previa a pantalla completa (mantener pulsada una foto) */
+  #libPrev{position:absolute;inset:0;z-index:8;pointer-events:none;overflow:hidden;-webkit-touch-callout:none}
+  .pv-bg{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .3s ease}
+  .pv-img{position:absolute;display:block;max-width:none;object-fit:contain;transform-origin:0 0;transform:var(--pv-t,none);transition:transform .36s cubic-bezier(.22,.9,.28,1);will-change:transform;-webkit-user-drag:none}
+  #libPrev.on .pv-bg{opacity:1}
+  #libPrev.on .pv-img{transform:none}
+  @media (prefers-reduced-motion:reduce){.pv-bg,.pv-img{transition-duration:.01s}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
   /* Capas */
@@ -775,7 +788,6 @@
     <span id="libSelN" aria-live="polite"></span>
     <div class="grow"></div>
     <button type="button" class="gbtn" id="libSelAll">Todas</button>
-    <button type="button" class="gbtn" id="libSelBtn" hidden>Seleccionar</button>
     <button type="button" class="gbtn" id="libBack" hidden>Volver al editor</button>
   </header>
   <div id="libScroll">
@@ -789,6 +801,7 @@
     <span id="libBarMsg" role="status" aria-live="polite"></span>
     <button type="button" id="libLookBtn" disabled><svg class="ic"><use href="#i-filters"/></svg><span>Aplicar look</span></button>
     <button type="button" id="libDelBtn" disabled><svg class="ic"><use href="#i-trash"/></svg><span>Eliminar</span></button>
+    <button type="button" id="libEditBtn" disabled aria-label="Editar" title="Editar la foto elegida"><svg class="ic"><use href="#i-adjust"/></svg></button>
   </div>
   <div id="libLooks" hidden>
     <div class="sheet" role="dialog" aria-label="Aplicar look">
@@ -799,6 +812,7 @@
       <button type="button" class="close" id="libLooksClose">Cancelar</button>
     </div>
   </div>
+  <div id="libPrev" hidden aria-hidden="true"><div class="pv-bg"></div><img class="pv-img" alt="" draggable="false"></div>
   <div id="libToast" role="status" aria-live="polite"></div>
   <div id="libSheet" hidden>
     <div class="sheet" role="dialog" aria-label="Menú">
@@ -5370,17 +5384,19 @@ async function libSaveNow(withThumb){
   });
   const gone = [...libSavedLids].filter(l => !used.has(l));
   let thumb = cur.thumb, thumbDone = false;
-  if (withThumb) { const t = libMakeThumb(); if (t) { thumb = t; thumbDone = true; } }
+  let big = null;
+  if (withThumb) { const t = libMakeThumb(); if (t) { thumb = t; thumbDone = true; try { const bc = libMakeBig(); if (bc) big = await new Promise(r => bc.toBlob(r, 'image/jpeg', 0.84)); } catch (e) { console.error(e); } } }
   const mv = libMaskVer;
   if (mv !== libMaskSaved) libMaskPack = await libPackMask();
   if (libId !== id) return;
   const meta = Object.assign({}, cur, {
-    updated: Date.now(), thumb, edited: !!document.querySelector('#rail .rt.mod'),
-    size: (cur.blobSize || 0) + lsize + (libMaskPack ? libMaskPack.buf.byteLength : 0),
+    updated: Date.now(), thumb, pv: big ? 1 : (cur.pv || 0), pvSize: big ? big.size : (cur.pvSize || 0), edited: !!document.querySelector('#rail .rt.mod'),
+    size: (cur.blobSize || 0) + lsize + (libMaskPack ? libMaskPack.buf.byteLength : 0) + (big ? big.size : (cur.pvSize || 0)),
     stale: !(thumbDone || libThumbVer === ver)
   });
   await libTx(['meta', 'state', 'files'], 'readwrite', (m, s, f) => {
     writes.forEach(w => f.put(w)); gone.forEach(l => f.delete(id + '/' + l));
+    if (big) f.put({ id: id + '/pv', blob: big });
     s.put({ id, st, lmap, mask: libMaskPack }); m.put(meta);
   });
   writes.forEach(w => libSavedLids.add(w.id.slice(id.length + 1))); gone.forEach(l => libSavedLids.delete(l));
@@ -5461,7 +5477,7 @@ async function libOpen(id, card){
     try { if (rec) await libRestoreState(rec); } catch (e) { console.error(e); libMsg('Se abrió la foto, pero no se pudieron recuperar todos los ajustes'); }
     histInit(); ensureThumbs();
     libMaskPack = (rec && rec.mask) || null; libMaskSaved = libMaskVer;
-    libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb) ? -1 : 1;
+    libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || !meta.pv) ? -1 : 1;
     libId = id;
     libHide();
     if (libThumbVer < 0) libSchedule();
@@ -5505,22 +5521,22 @@ async function libDelete(id){
 /* Pantalla de galería: es lo primero que se ve al abrir la app. Cuadrícula que respeta la forma de cada foto (como el «Estudio» de VSCO). */
 const libMenuBtn = document.getElementById('libMenuBtn'), libSheet = document.getElementById('libSheet');
 const libAr = m => m.ar || m._ar || 1;
-/* Selección: el círculo de cada foto (o mantener pulsada, o «Seleccionar») → barra de abajo con «Aplicar look» y «Eliminar», desde 1 foto. Vale también para la foto que está abierta. */
+/* Selección: tocar una foto la marca (otro toque la desmarca; al quitar la última se sale solo) → barra de abajo con «Aplicar look», «Eliminar» y, si hay una sola, «Editar». Mantener pulsada = vista previa a pantalla completa. */
 const libSel = new Set(), libCards = new Map();
 let libSelMode = false, libSelAuto = false, libLong = false, libDelT = 0;
-const libSelN = document.getElementById('libSelN'), libSelAll = document.getElementById('libSelAll'), libSelBtn = document.getElementById('libSelBtn'), libSelX = document.getElementById('libSelX');
-const libLookBtn = document.getElementById('libLookBtn'), libDelBtn = document.getElementById('libDelBtn'), libBarMsg = document.getElementById('libBarMsg');
+const libSelN = document.getElementById('libSelN'), libSelAll = document.getElementById('libSelAll'), libSelX = document.getElementById('libSelX');
+const libEditBtn = document.getElementById('libEditBtn'), libLookBtn = document.getElementById('libLookBtn'), libDelBtn = document.getElementById('libDelBtn'), libBarMsg = document.getElementById('libBarMsg');
 const libLooks = document.getElementById('libLooks'), libLookList = document.getElementById('libLookList');
 function libDisarm(){ clearTimeout(libDelT); libDelBtn.classList.remove('arm'); libDelBtn.querySelector('span').textContent = 'Eliminar'; }
 function libSelUpdate(){
   const n = libSel.size;
   libSelN.textContent = n ? n + (n === 1 ? ' seleccionada' : ' seleccionadas') : 'Elige fotos';
-  libLookBtn.disabled = libDelBtn.disabled = !n;
+  libLookBtn.disabled = libDelBtn.disabled = !n; libEditBtn.disabled = n !== 1;
   libSelAll.textContent = n && n === libMeta.length ? 'Ninguna' : 'Todas';
   if (!n) libDisarm();
 }
-function libMark(el, on){ el.classList.toggle('picked', on); const c = el.querySelector('.lc-chk'); if (c) c.setAttribute('aria-pressed', on ? 'true' : 'false'); }
-function libSetSel(on, auto){          // auto = se entró tocando un círculo o con pulsación larga: al desmarcar la última se sale solo
+function libMark(el, on){ el.classList.toggle('picked', on); const b = el.querySelector('.lc-open'); if (b) b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+function libSetSel(on, auto){          // auto = se entró tocando una foto: al desmarcar la última se sale solo
   libSelMode = on; libSelAuto = !!(on && auto); if (!on) libSel.clear();
   libEl.classList.toggle('pick', on); libDisarm();
   libCards.forEach((el, id) => libMark(el, libSel.has(id)));
@@ -5533,39 +5549,109 @@ function libToggle(id, force){
   libDisarm(); libSelUpdate();
   if (libSelAuto && !libSel.size) libSetSel(false);
 }
-function libPress(open, m){            // mantener pulsada una foto = empezar a elegir
+/* Vista previa: mantener pulsada una foto la abre a pantalla completa (crece desde su sitio) y al soltar vuelve. Se guarda una versión grande con los ajustes (files «id/pv»); si no la hay, la miniatura y, en fotos sin ajustes, la propia foto. */
+const libPrev = document.getElementById('libPrev'), libPvImg = libPrev.querySelector('.pv-img');
+let libPvOn = false, libPvTok = 0, libPvUrl = null, libPvCard = null, libPvF = null, libPvEnd = 0;
+function libMakeBig(){          // como la miniatura pero a 1440 px (la que se ve a pantalla completa)
+  if (!hasImage || !curGeom || editCrop) return null;
+  const S = 1440, k = Math.min(1, S / Math.max(curGeom.w, curGeom.h));
+  const w = Math.max(1, Math.round(curGeom.w * k)), h = Math.max(1, Math.round(curGeom.h * k));
+  const saved = { bypass, view: { ...view }, sm: brushSt.showMask, sv: skinView };
+  let o = null;
+  try {
+    bypass = 0; brushSt.showMask = false; skinView = false;
+    cv.width = w; cv.height = h; view.fit = false; view.zs = k; view.cx = 0; view.cy = 0;
+    draw();
+    o = document.createElement('canvas'); o.width = w; o.height = h;
+    o.getContext('2d').drawImage(cv, 0, 0);
+  } catch (e) { console.error(e); o = null; }
+  finally { bypass = saved.bypass; brushSt.showMask = saved.sm; skinView = saved.sv; Object.assign(view, saved.view); applyGeom(); draw(); }
+  return o;
+}
+async function libPvSource(m){          // imagen nítida para la vista previa (null = quedarse con la miniatura)
+  try { const r = await libGet('files', m.id + '/pv'); if (r && r.blob) return URL.createObjectURL(r.blob); } catch (e) {}
+  if (m.edited || m.pv) return null;       // con ajustes y sin versión grande (foto guardada antes): solo la miniatura hasta que se abra una vez
+  try {                                   // sin ajustes: la propia foto, reducida
+    const f = await libGet('files', m.id); if (!f || !f.blob) return null;
+    const bmp = await createImageBitmap(f.blob, { imageOrientation: 'from-image' });
+    const k = Math.min(1, 1440 / Math.max(bmp.width, bmp.height)), w = Math.max(1, Math.round(bmp.width * k)), h = Math.max(1, Math.round(bmp.height * k));
+    const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    if (bmp.close) bmp.close();
+    const bl = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.86));
+    return bl ? URL.createObjectURL(bl) : null;
+  } catch (e) { return null; }
+}
+function libPvFit(ar){ const W = innerWidth, H = innerHeight; let w = W, h = W / ar; if (h > H) { h = H; w = H * ar; } return { x: (W - w) / 2, y: (H - h) / 2, w, h }; }
+const libPvXf = (r, f) => 'translate(' + (r.left - f.x) + 'px,' + (r.top - f.y) + 'px) scale(' + (r.width / f.w) + ',' + (r.height / f.h) + ')';
+const libPvRel = () => libPvClose();
+const libPvEvs = ['pointerup', 'pointercancel', 'touchend', 'touchcancel', 'mouseup'], libPvEvs2 = ['blur', 'pagehide'];
+function libPvUrlFree(){ if (libPvUrl) { try { URL.revokeObjectURL(libPvUrl); } catch (e) {} libPvUrl = null; } }
+function libPvDone(){ if (libPvOn) return; libPrev.hidden = true; libPrev.classList.remove('on'); libPvImg.removeAttribute('src'); libPvUrlFree(); }
+function libPvClose(){
+  if (!libPvOn) return;
+  libPvOn = false; libPvTok++; libPvEvs.forEach(n => removeEventListener(n, libPvRel, true)); libPvEvs2.forEach(n => removeEventListener(n, libPvRel));
+  const im = libPvCard && libPvCard.isConnected && libPvCard.querySelector('.lc-im'), r = im ? im.getBoundingClientRect() : null;
+  libPrev.classList.remove('on');                        // vuelve a su sitio mientras el fondo se aclara
+  if (r && libPvF) libPvImg.style.setProperty('--pv-t', libPvXf(r, libPvF));
+  clearTimeout(libPvEnd); libPvEnd = setTimeout(libPvDone, 380);
+}
+async function libPvOpen(m, card){
+  if (libPvOn) return;
+  const tok = ++libPvTok; libPvOn = true; libPvCard = card; clearTimeout(libPvEnd); libPvUrlFree();
+  libPvEvs.forEach(n => addEventListener(n, libPvRel, true)); libPvEvs2.forEach(n => addEventListener(n, libPvRel));
+  let first = m.thumb || null;
+  if (!first) {                                          // sin miniatura (HEIC/RAW sin abrir): se espera a tener imagen
+    const u = await libPvSource(m);
+    if (tok !== libPvTok || !libPvOn) { if (u) URL.revokeObjectURL(u); return; }
+    if (!u) { libPvClose(); libMsg('No se puede previsualizar esta foto'); return; }
+    libPvUrl = u; first = u;
+  }
+  const f = libPvFit(libAr(m) || 1), r = card.querySelector('.lc-im').getBoundingClientRect(); libPvF = f;
+  libPvImg.style.cssText = 'left:' + f.x + 'px;top:' + f.y + 'px;width:' + f.w + 'px;height:' + f.h + 'px;--pv-t:' + libPvXf(r, f);
+  libPvImg.src = first; libPrev.classList.remove('on'); libPrev.hidden = false;
+  void libPrev.offsetWidth;                              // fija el punto de partida antes de animar
+  libPrev.classList.add('on');
+  if (m.thumb) {                                         // la versión nítida sustituye a la miniatura cuando está lista (mismo contenido, sin saltos)
+    const u = await libPvSource(m); if (!u) return;
+    if (tok !== libPvTok) { URL.revokeObjectURL(u); return; }
+    try { const t = new Image(); t.src = u; await t.decode(); } catch (e) { URL.revokeObjectURL(u); return; }
+    if (tok !== libPvTok) { URL.revokeObjectURL(u); return; }
+    libPvUrlFree(); libPvUrl = u; libPvImg.src = u;
+  }
+}
+function libPress(open, m){            // mantener pulsada una foto = vista previa a pantalla completa mientras se siga pulsando
   let t = 0, x0 = 0, y0 = 0;
   const stop = () => { clearTimeout(t); t = 0; };
   open.addEventListener('pointerdown', ev => {
     libLong = false; stop(); if (ev.button > 0 || libBusy || libEl.classList.contains('work')) return;
     x0 = ev.clientX; y0 = ev.clientY;
-    t = setTimeout(() => { t = 0; libLong = true; if (!libSelMode) libSetSel(true, true); libToggle(m.id, true); try { if (navigator.vibrate) navigator.vibrate(12); } catch (e) {} }, 420);
+    t = setTimeout(() => { t = 0; libLong = true; libPvOpen(m, open.parentNode); try { if (navigator.vibrate) navigator.vibrate(10); } catch (e) {} }, 320);
   });
   open.addEventListener('pointermove', ev => { if (t && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 9) stop(); });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(n => open.addEventListener(n, stop));
+  open.addEventListener('touchmove', ev => { if (libPvOn && ev.cancelable) ev.preventDefault(); }, { passive: false });   // con la vista previa abierta el dedo no desplaza la galería
   open.addEventListener('contextmenu', ev => ev.preventDefault());
 }
 function libMeasure(m){          // la forma (ancho/alto) de las fotos guardadas antes de que se guardara; se lee de la miniatura
   if (m.ar || m._ar !== undefined || !m.thumb) return;
   m._ar = 0;
   const i = new Image();
-  i.onload = () => { m._ar = i.naturalWidth && i.naturalHeight ? i.naturalWidth / i.naturalHeight : 1; clearTimeout(libMeasure.t); libMeasure.t = setTimeout(() => { if (!libEl.hidden) libRender(); }, 60); };
+  i.onload = () => { m._ar = i.naturalWidth && i.naturalHeight ? i.naturalWidth / i.naturalHeight : 1; clearTimeout(libMeasure.t); libMeasure.t = setTimeout(() => { if (!libEl.hidden && !libPvOn) libRender(); }, 60); };
   i.onerror = () => { m._ar = 1; };
   i.src = m.thumb;
 }
 function libCard(m){
   const el = document.createElement('div'); el.className = 'lc' + (m.id === libId ? ' cur' : '') + (libSel.has(m.id) ? ' picked' : ''); libCards.set(m.id, el); el.dataset.id = m.id;
-  const open = document.createElement('button'); open.className = 'lc-open'; open.setAttribute('aria-label', 'Abrir ' + (m.name || 'foto')); open.title = [m.name, m.kind, libBytes(m.size)].filter(Boolean).join(' · ');
+  const open = document.createElement('button'); open.className = 'lc-open'; open.setAttribute('aria-label', 'Seleccionar ' + (m.name || 'foto')); open.title = [m.name, m.kind, libBytes(m.size)].filter(Boolean).join(' · ');
   const im = document.createElement('span'); im.className = 'lc-im'; im.style.aspectRatio = String(libAr(m) || 1);
   if (m.thumb) { const i = document.createElement('img'); i.alt = ''; i.src = m.thumb; im.appendChild(i); }
   else im.innerHTML = '<svg class="ic xl ph"><use href="#i-open"/></svg>';
   open.appendChild(im); el.appendChild(open);
   libPress(open, m);
-  open.onclick = () => { if (libLong) { libLong = false; return; } if (libSelMode) libToggle(m.id); else libOpen(m.id, el); };
-  const chk = document.createElement('button'); chk.type = 'button'; chk.className = 'lc-chk';
-  chk.setAttribute('aria-label', 'Seleccionar ' + (m.name || 'foto')); chk.setAttribute('aria-pressed', libSel.has(m.id) ? 'true' : 'false');
+  open.onclick = () => { if (libLong) { libLong = false; return; } if (libBusy || libEl.classList.contains('work')) return; if (!libSelMode) libSetSel(true, true); libToggle(m.id); };
+  open.setAttribute('aria-pressed', libSel.has(m.id) ? 'true' : 'false');
+  const chk = document.createElement('span'); chk.className = 'lc-chk'; chk.setAttribute('aria-hidden', 'true');
   chk.innerHTML = '<svg class="ic s"><use href="#i-check"/></svg>';
-  chk.onclick = ev => { ev.stopPropagation(); if (libBusy || libEl.classList.contains('work')) return; if (!libSelMode) libSetSel(true, true); libToggle(m.id); };
   el.appendChild(chk);
   if (m.edited) el.insertAdjacentHTML('beforeend', '<svg class="ic lc-edit" aria-label="Editada"><use href="#i-adjust"/></svg>');
   return el;
@@ -5575,7 +5661,7 @@ function libRender(){
   const list = libMeta.slice().sort((a, b) => (b.added || 0) - (a.added || 0));      // por fecha de alta: una foto no salta de sitio al editarla
   libGrid.textContent = ''; libCards.clear();
   [...libSel].forEach(id => { if (!libMeta.some(m => m.id === id)) libSel.delete(id); });
-  libSelBtn.hidden = !list.length; if (!list.length && libSelMode) libSetSel(false);
+  if (!list.length && libSelMode) libSetSel(false);
   const n = libCols(), cols = [], hs = new Array(n).fill(0);
   for (let i = 0; i < n; i++) { const c = document.createElement('div'); c.className = 'lcol'; libGrid.appendChild(c); cols.push(c); }
   list.forEach(m => {
@@ -5658,7 +5744,11 @@ if (/^https?:$/.test(location.protocol)) setTimeout(() => { if (navigator.onLine
 })();
 
 /* Acciones de la selección */
-libSelBtn.onclick = () => libSetSel(true);
+libEditBtn.onclick = () => {                 // abrir en el editor la foto elegida
+  if (libSel.size !== 1 || libBusy || libEl.classList.contains('work')) return;
+  const id = [...libSel][0], el = libCards.get(id);
+  libSetSel(false); libOpen(id, el);
+};
 libSelX.onclick = () => { if (!libEl.classList.contains('work')) libSetSel(false); };
 libSelAll.onclick = () => { const all = libSel.size && libSel.size === libMeta.length; libMeta.forEach(m => libToggle(m.id, !all)); };
 
@@ -5713,7 +5803,7 @@ async function libOpenQuiet(id){               // como libOpen pero sin cerrar l
   try { if (rec) await libRestoreState(rec); } catch (e) { console.error(e); }
   histInit();
   libMaskPack = (rec && rec.mask) || null; libMaskSaved = libMaskVer;
-  libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb) ? -1 : 1;
+  libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || !meta.pv) ? -1 : 1;
   libId = id;
 }
 async function libApplyLook(name){
