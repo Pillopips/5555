@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.16-d">
+<meta name="app-version" content="2026.11.17-a">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -517,7 +517,11 @@
   .lc-im{display:flex;align-items:center;justify-content:center;position:relative;width:100%;background:var(--raise)}
   .lc-im img{width:100%;height:100%;object-fit:cover;display:block}
   .lc-im .ph{color:var(--dim)}
-  .lc-edit{position:absolute;left:7px;bottom:7px;width:24px;height:24px;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));pointer-events:none}
+  .lc-edit{position:absolute;left:2px;bottom:2px;z-index:2;display:flex;align-items:center;justify-content:center;width:40px;height:40px;padding:0;border-radius:50%;color:#fff;-webkit-tap-highlight-color:transparent}
+  .lc-edit::before{content:"";position:absolute;inset:6px;border-radius:50%;background:rgba(0,0,0,.34)}
+  .lc-edit .ic{position:relative;width:20px;height:20px;stroke-width:1.7;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+  .lc-edit:active::before{background:rgba(255,255,255,.3)}
+  #lib.pick .lc-edit{pointer-events:none}
   .lc-x{position:absolute;top:6px;right:6px;display:flex;align-items:center;justify-content:center;gap:5px;height:30px;min-width:30px;padding:0 8px;border-radius:999px;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font-size:11.5px;font-weight:600;opacity:.82}
   .lc-x .ic{width:15px;height:15px}
   .lc-x span{display:none}
@@ -585,7 +589,7 @@
   /* vista previa a pantalla completa (mantener pulsada una foto) */
   #libPrev{position:absolute;inset:0;z-index:8;pointer-events:none;overflow:hidden;-webkit-touch-callout:none}
   .pv-bg{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .3s ease}
-  .pv-img{position:absolute;display:block;max-width:none;object-fit:contain;transform-origin:0 0;transform:var(--pv-t,none);transition:transform .36s cubic-bezier(.22,.9,.28,1);will-change:transform;-webkit-user-drag:none}
+  .pv-img{position:absolute;display:block;max-width:none;object-fit:contain;transform-origin:0 0;transform:var(--pv-t,none);transition:transform .36s cubic-bezier(.22,.9,.28,1);-webkit-user-drag:none}
   #libPrev.on .pv-bg{opacity:1}
   #libPrev.on .pv-img{transform:none}
   @media (prefers-reduced-motion:reduce){.pv-bg,.pv-img{transition-duration:.01s}}
@@ -5385,12 +5389,12 @@ async function libSaveNow(withThumb){
   const gone = [...libSavedLids].filter(l => !used.has(l));
   let thumb = cur.thumb, thumbDone = false;
   let big = null;
-  if (withThumb) { const t = libMakeThumb(); if (t) { thumb = t; thumbDone = true; try { const bc = libMakeBig(); if (bc) big = await new Promise(r => bc.toBlob(r, 'image/jpeg', 0.84)); } catch (e) { console.error(e); } } }
+  if (withThumb) { const t = libMakeThumb(); if (t) { thumb = t; thumbDone = true; try { const bc = libMakeBig(); if (bc) big = await new Promise(r => bc.toBlob(r, 'image/jpeg', 0.88)); } catch (e) { console.error(e); } } }
   const mv = libMaskVer;
   if (mv !== libMaskSaved) libMaskPack = await libPackMask();
   if (libId !== id) return;
   const meta = Object.assign({}, cur, {
-    updated: Date.now(), thumb, pv: big ? 1 : (cur.pv || 0), pvSize: big ? big.size : (cur.pvSize || 0), edited: !!document.querySelector('#rail .rt.mod'),
+    updated: Date.now(), thumb, pv: big ? 2 : (cur.pv || 0), pvSize: big ? big.size : (cur.pvSize || 0), edited: !!document.querySelector('#rail .rt.mod'),
     size: (cur.blobSize || 0) + lsize + (libMaskPack ? libMaskPack.buf.byteLength : 0) + (big ? big.size : (cur.pvSize || 0)),
     stale: !(thumbDone || libThumbVer === ver)
   });
@@ -5477,7 +5481,7 @@ async function libOpen(id, card){
     try { if (rec) await libRestoreState(rec); } catch (e) { console.error(e); libMsg('Se abrió la foto, pero no se pudieron recuperar todos los ajustes'); }
     histInit(); ensureThumbs();
     libMaskPack = (rec && rec.mask) || null; libMaskSaved = libMaskVer;
-    libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || !meta.pv) ? -1 : 1;
+    libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || meta.pv !== 2) ? -1 : 1;
     libId = id;
     libHide();
     if (libThumbVer < 0) libSchedule();
@@ -5538,7 +5542,7 @@ function libSelUpdate(){
 function libMark(el, on){ el.classList.toggle('picked', on); const b = el.querySelector('.lc-open'); if (b) b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
 function libSetSel(on, auto){          // auto = se entró tocando una foto: al desmarcar la última se sale solo
   libSelMode = on; libSelAuto = !!(on && auto); if (!on) libSel.clear();
-  libEl.classList.toggle('pick', on); libDisarm();
+  libEl.classList.toggle('pick', on); libDisarm(); if (!on) libBackfillSoon();
   libCards.forEach((el, id) => libMark(el, libSel.has(id)));
   libSelUpdate();
 }
@@ -5551,10 +5555,10 @@ function libToggle(id, force){
 }
 /* Vista previa: mantener pulsada una foto la abre a pantalla completa (crece desde su sitio) y al soltar vuelve. Se guarda una versión grande con los ajustes (files «id/pv»); si no la hay, la miniatura y, en fotos sin ajustes, la propia foto. */
 const libPrev = document.getElementById('libPrev'), libPvImg = libPrev.querySelector('.pv-img');
-let libPvOn = false, libPvTok = 0, libPvUrl = null, libPvCard = null, libPvF = null, libPvEnd = 0;
-function libMakeBig(){          // como la miniatura pero a 1440 px (la que se ve a pantalla completa)
+let libPvOn = false, libPvTok = 0, libPvCard = null, libPvF = null, libPvEnd = 0, libPvPre = null;
+function libMakeBig(){          // como la miniatura pero a 2048 px (la que se ve a pantalla completa)
   if (!hasImage || !curGeom || editCrop) return null;
-  const S = 1440, k = Math.min(1, S / Math.max(curGeom.w, curGeom.h));
+  const S = 2048, k = Math.min(1, S / Math.max(curGeom.w, curGeom.h));
   const w = Math.max(1, Math.round(curGeom.w * k)), h = Math.max(1, Math.round(curGeom.h * k));
   const saved = { bypass, view: { ...view }, sm: brushSt.showMask, sv: skinView };
   let o = null;
@@ -5574,10 +5578,11 @@ async function libPvSource(m){          // imagen nítida para la vista previa (
   try {                                   // sin ajustes: la propia foto, reducida
     const f = await libGet('files', m.id); if (!f || !f.blob) return null;
     const bmp = await createImageBitmap(f.blob, { imageOrientation: 'from-image' });
-    const k = Math.min(1, 1440 / Math.max(bmp.width, bmp.height)), w = Math.max(1, Math.round(bmp.width * k)), h = Math.max(1, Math.round(bmp.height * k));
-    const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    if (m.thumb && Math.abs(bmp.width / bmp.height / libAr(m) - 1) > 0.03) { if (bmp.close) bmp.close(); return null; }       // otra forma (p. ej. recortada): mejor la miniatura
+    const k = Math.min(1, 2048 / Math.max(bmp.width, bmp.height)), w = Math.max(1, Math.round(bmp.width * k)), h = Math.max(1, Math.round(bmp.height * k));
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const cx = c.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.drawImage(bmp, 0, 0, w, h);
     if (bmp.close) bmp.close();
-    const bl = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.86));
+    const bl = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.88));
     return bl ? URL.createObjectURL(bl) : null;
   } catch (e) { return null; }
 }
@@ -5585,8 +5590,20 @@ function libPvFit(ar){ const W = innerWidth, H = innerHeight; let w = W, h = W /
 const libPvXf = (r, f) => 'translate(' + (r.left - f.x) + 'px,' + (r.top - f.y) + 'px) scale(' + (r.width / f.w) + ',' + (r.height / f.h) + ')';
 const libPvRel = () => libPvClose();
 const libPvEvs = ['pointerup', 'pointercancel', 'touchend', 'touchcancel', 'mouseup'], libPvEvs2 = ['blur', 'pagehide'];
-function libPvUrlFree(){ if (libPvUrl) { try { URL.revokeObjectURL(libPvUrl); } catch (e) {} libPvUrl = null; } }
-function libPvDone(){ if (libPvOn) return; libPrev.hidden = true; libPrev.classList.remove('on'); libPvImg.removeAttribute('src'); libPvUrlFree(); }
+function libPvLoad(m){          // promesa de la imagen nítida ya decodificada (la última se guarda: pulsar otra vez la misma es instantáneo)
+  const key = m.id + ':' + (m.updated || 0) + ':' + (m.pv || 0);
+  if (libPvPre && libPvPre.key === key) return libPvPre.p;
+  const old = libPvPre;
+  const p = (async () => {
+    const u = await libPvSource(m); if (!u) return null;
+    try { const t = new Image(); t.src = u; await t.decode(); } catch (e) { URL.revokeObjectURL(u); return null; }
+    return u;
+  })();
+  libPvPre = { key, p };
+  if (old) old.p.then(u => { if (u) URL.revokeObjectURL(u); }, () => {});
+  return p;
+}
+function libPvDone(){ if (libPvOn) return; libPrev.hidden = true; libPrev.classList.remove('on'); libPvImg.removeAttribute('src'); libBackfillSoon(); }
 function libPvClose(){
   if (!libPvOn) return;
   libPvOn = false; libPvTok++; libPvEvs.forEach(n => removeEventListener(n, libPvRel, true)); libPvEvs2.forEach(n => removeEventListener(n, libPvRel));
@@ -5597,14 +5614,15 @@ function libPvClose(){
 }
 async function libPvOpen(m, card){
   if (libPvOn) return;
-  const tok = ++libPvTok; libPvOn = true; libPvCard = card; clearTimeout(libPvEnd); libPvUrlFree();
+  const tok = ++libPvTok; libPvOn = true; libPvCard = card; clearTimeout(libPvEnd);
   libPvEvs.forEach(n => addEventListener(n, libPvRel, true)); libPvEvs2.forEach(n => addEventListener(n, libPvRel));
+  const pre = libPvLoad(m);
   let first = m.thumb || null;
   if (!first) {                                          // sin miniatura (HEIC/RAW sin abrir): se espera a tener imagen
-    const u = await libPvSource(m);
-    if (tok !== libPvTok || !libPvOn) { if (u) URL.revokeObjectURL(u); return; }
+    const u = await pre;
+    if (tok !== libPvTok || !libPvOn) return;
     if (!u) { libPvClose(); libMsg('No se puede previsualizar esta foto'); return; }
-    libPvUrl = u; first = u;
+    first = u;
   }
   const f = libPvFit(libAr(m) || 1), r = card.querySelector('.lc-im').getBoundingClientRect(); libPvF = f;
   libPvImg.style.cssText = 'left:' + f.x + 'px;top:' + f.y + 'px;width:' + f.w + 'px;height:' + f.h + 'px;--pv-t:' + libPvXf(r, f);
@@ -5612,19 +5630,17 @@ async function libPvOpen(m, card){
   void libPrev.offsetWidth;                              // fija el punto de partida antes de animar
   libPrev.classList.add('on');
   if (m.thumb) {                                         // la versión nítida sustituye a la miniatura cuando está lista (mismo contenido, sin saltos)
-    const u = await libPvSource(m); if (!u) return;
-    if (tok !== libPvTok) { URL.revokeObjectURL(u); return; }
-    try { const t = new Image(); t.src = u; await t.decode(); } catch (e) { URL.revokeObjectURL(u); return; }
-    if (tok !== libPvTok) { URL.revokeObjectURL(u); return; }
-    libPvUrlFree(); libPvUrl = u; libPvImg.src = u;
+    const u = await pre; if (!u || tok !== libPvTok) return;
+    libPvImg.src = u;
   }
 }
 function libPress(open, m){            // mantener pulsada una foto = vista previa a pantalla completa mientras se siga pulsando
-  let t = 0, x0 = 0, y0 = 0;
-  const stop = () => { clearTimeout(t); t = 0; };
+  let t = 0, t2 = 0, x0 = 0, y0 = 0;
+  const stop = () => { clearTimeout(t); t = 0; clearTimeout(t2); t2 = 0; };
   open.addEventListener('pointerdown', ev => {
-    libLong = false; stop(); if (ev.button > 0 || libBusy || libEl.classList.contains('work')) return;
+    libLong = false; stop(); if (ev.button > 0 || libEl.classList.contains('work')) return;
     x0 = ev.clientX; y0 = ev.clientY;
+    t2 = setTimeout(() => { t2 = 0; libPvLoad(m); }, 120);        // no es un toque rápido: se va preparando la imagen nítida
     t = setTimeout(() => { t = 0; libLong = true; libPvOpen(m, open.parentNode); try { if (navigator.vibrate) navigator.vibrate(10); } catch (e) {} }, 320);
   });
   open.addEventListener('pointermove', ev => { if (t && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 9) stop(); });
@@ -5648,12 +5664,17 @@ function libCard(m){
   else im.innerHTML = '<svg class="ic xl ph"><use href="#i-open"/></svg>';
   open.appendChild(im); el.appendChild(open);
   libPress(open, m);
-  open.onclick = () => { if (libLong) { libLong = false; return; } if (libBusy || libEl.classList.contains('work')) return; if (!libSelMode) libSetSel(true, true); libToggle(m.id); };
+  open.onclick = () => { if (libLong) { libLong = false; return; } if (libEl.classList.contains('work')) return; if (!libSelMode) libSetSel(true, true); libToggle(m.id); };
   open.setAttribute('aria-pressed', libSel.has(m.id) ? 'true' : 'false');
   const chk = document.createElement('span'); chk.className = 'lc-chk'; chk.setAttribute('aria-hidden', 'true');
   chk.innerHTML = '<svg class="ic s"><use href="#i-check"/></svg>';
   el.appendChild(chk);
-  if (m.edited) el.insertAdjacentHTML('beforeend', '<svg class="ic lc-edit" aria-label="Editada"><use href="#i-adjust"/></svg>');
+  if (m.edited) {                      // el icono de ajustes (foto editada) lleva directo al editor
+    const eb = document.createElement('button'); eb.type = 'button'; eb.className = 'lc-edit'; eb.title = 'Editar'; eb.setAttribute('aria-label', 'Editar ' + (m.name || 'foto'));
+    eb.innerHTML = '<svg class="ic"><use href="#i-adjust"/></svg>';
+    eb.onclick = async ev => { ev.stopPropagation(); if (libSelMode || libEl.classList.contains('work')) return; await libBfWait(); libOpen(m.id, el); };
+    el.appendChild(eb);
+  }
   return el;
 }
 const libCols = () => { const w = libScroll.clientWidth || innerWidth; return w < 520 ? 3 : w < 820 ? 4 : w < 1180 ? 5 : 6; };
@@ -5672,18 +5693,18 @@ function libRender(){
   libEmpty.hidden = list.length > 0 || !libOK;
   libSelUpdate();
   const tot = list.reduce((a, m) => a + (m.size || 0), 0);
-  libInfo.textContent = !libOK ? 'No disponible en este navegador' : list.length ? list.length + (list.length === 1 ? ' foto' : ' fotos') + ' · ' + libBytes(tot) + ' en este dispositivo' : '';
+  libInfo.textContent = libBfMsg || (!libOK ? 'No disponible en este navegador' : list.length ? list.length + (list.length === 1 ? ' foto' : ' fotos') + ' · ' + libBytes(tot) + ' en este dispositivo' : '');
 }
 let libRz = 0, libCols0 = 0;
 addEventListener('resize', () => { clearTimeout(libRz); libRz = setTimeout(() => { if (!libEl.hidden && libCols() !== libCols0) { libCols0 = libCols(); libRender(); } }, 120); });
-function libShow(){ if (libSelMode) libSetSel(false); libRender(); libCols0 = libCols(); libBack.hidden = !(hasImage && (libId || !libOK)); libEl.hidden = false; libScroll.scrollTop = 0; libSheet.hidden = true; libLooks.hidden = true; }
+function libShow(){ if (libSelMode) libSetSel(false); libRender(); libBackfillSoon(); libCols0 = libCols(); libBack.hidden = !(hasImage && (libId || !libOK)); libEl.hidden = false; libScroll.scrollTop = 0; libSheet.hidden = true; libLooks.hidden = true; }
 function libHide(){ if (libSelMode) libSetSel(false); libEl.hidden = true; libSheet.hidden = true; libLooks.hidden = true; }
 document.getElementById('btnGallery').onclick = () => {
   libShow();
   if (hasImage && libId) libFlush(true).then(() => { if (!libEl.hidden) libRender(); });
 };
 libBack.onclick = libHide;
-document.getElementById('libAdd').onclick = () => fileIn.click();
+document.getElementById('libAdd').onclick = () => { libBfStop = true; fileIn.click(); };
 addEventListener('keydown', ev => { if (ev.key === 'Escape') { if (!libLooks.hidden) libLooks.hidden = true; else if (!libSheet.hidden) libSheet.hidden = true; else if (libSelMode && !libEl.classList.contains('work')) libSetSel(false); else if (!libEl.hidden && hasImage && libId) libHide(); } });
 
 /* Menú de la galería: versión de la app y búsqueda de actualización */
@@ -5741,18 +5762,20 @@ if (/^https?:$/.test(location.protocol)) setTimeout(() => { if (navigator.onLine
   try { libMeta = (await libTx(['meta'], 'readonly', m => m.getAll())) || []; }
   catch (e) { libOK = false; console.warn('Galería no disponible', e); libEl.hidden = true; return; }
   if (!hasImage) libShow(); else libRender();
+  libBackfillSoon(2500);
 })();
 
 /* Acciones de la selección */
-libEditBtn.onclick = () => {                 // abrir en el editor la foto elegida
-  if (libSel.size !== 1 || libBusy || libEl.classList.contains('work')) return;
+libEditBtn.onclick = async () => {           // abrir en el editor la foto elegida
+  if (libSel.size !== 1 || libEl.classList.contains('work')) return;
   const id = [...libSel][0], el = libCards.get(id);
-  libSetSel(false); libOpen(id, el);
+  await libBfWait(); libSetSel(false); libOpen(id, el);
 };
 libSelX.onclick = () => { if (!libEl.classList.contains('work')) libSetSel(false); };
 libSelAll.onclick = () => { const all = libSel.size && libSel.size === libMeta.length; libMeta.forEach(m => libToggle(m.id, !all)); };
 
 async function libDeleteMany(ids){            // también la foto abierta: el editor se queda sin ella (no se vuelve a guardar)
+  await libBfWait();
   if (libBusy || !ids.length) return;
   libBusy = true; libEl.classList.add('work'); libBarMsg.textContent = 'Eliminando…';
   try {
@@ -5766,7 +5789,7 @@ async function libDeleteMany(ids){            // también la foto abierta: el ed
 }
 function libShowKeep(){ const y = libScroll.scrollTop; libRender(); libBack.hidden = !(hasImage && (libId || !libOK)); libScroll.scrollTop = y; }
 libDelBtn.onclick = () => {
-  const n = libSel.size; if (!n || libBusy) return;
+  const n = libSel.size; if (!n) return;
   if (!libDelBtn.classList.contains('arm')) {
     libDelBtn.classList.add('arm'); libDelBtn.querySelector('span').textContent = n === 1 ? '¿Eliminar?' : '¿Eliminar ' + n + '?';
     libDelT = setTimeout(libDisarm, 3200); return;
@@ -5776,7 +5799,7 @@ libDelBtn.onclick = () => {
 
 /* Aplicar un look guardado (de «Míos») a varias fotos: cada una se carga un momento, se le pone el look como filtro, se guarda con su miniatura nueva y sigue con sus ajustes */
 libLookBtn.onclick = () => {
-  if (!libSel.size || libBusy) return;
+  if (!libSel.size) return;
   const names = Object.keys(userPresets);
   libLookList.textContent = '';
   document.getElementById('libLooksSub').textContent = names.length ? 'Se pondrá como filtro en ' + libSel.size + (libSel.size === 1 ? ' foto' : ' fotos') + '. Los ajustes que ya tengan se mantienen.' : '';
@@ -5803,11 +5826,12 @@ async function libOpenQuiet(id){               // como libOpen pero sin cerrar l
   try { if (rec) await libRestoreState(rec); } catch (e) { console.error(e); }
   histInit();
   libMaskPack = (rec && rec.mask) || null; libMaskSaved = libMaskVer;
-  libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || !meta.pv) ? -1 : 1;
+  libCur = meta; libVer = 1; libSavedVer = 1; libThumbVer = (meta.stale || !meta.thumb || meta.pv !== 2) ? -1 : 1;
   libId = id;
 }
 async function libApplyLook(name){
   const data = userPresets[name], ids = [...libSel];
+  await libBfWait();
   if (!data || !ids.length || libBusy) return;
   libLooks.hidden = true; libBusy = true; libEl.classList.add('work');
   const wasOpen = hasImage ? libId : null; let ok = 0;
@@ -5829,6 +5853,40 @@ async function libApplyLook(name){
   } finally { libBusy = false; libEl.classList.remove('work'); libBarMsg.textContent = ''; }
   libSetSel(false); libShowKeep();
   libMsg(ok === ids.length ? 'Look «' + name + '» aplicado a ' + ok + (ok === 1 ? ' foto' : ' fotos') : ok + ' de ' + ids.length + ' fotos con el look «' + name + '»');
+}
+
+/* Fotos guardadas antes de tener copia grande: se preparan solas, una a una, cuando la galería está a la vista y no hay ninguna foto abierta en el editor
+   (así no se pierde el historial de deshacer de nadie). Se detiene en cuanto el usuario elige, borra, añade o abre algo. */
+let libBfRun = null, libBfStop = false, libBfMsg = '', libBfT = 0;
+const libBfSkip = new Set();
+const libBfTodo = () => libMeta.filter(m => !m.pv && (m.edited || m.stale || !m.thumb) && !libBfSkip.has(m.id));
+function libBackfillSoon(ms){ clearTimeout(libBfT); libBfT = setTimeout(libBackfill, ms || 1500); }
+async function libBfWait(){ if (libBfRun) { libBfStop = true; try { await libBfRun; } catch (e) {} } }
+function libBackfill(){
+  if (libBfRun || !libOK || libBusy || libEl.hidden || libSelMode || libPvOn || (hasImage && libId) || !libBfTodo().length) return;
+  libBfStop = false;
+  libBfRun = (async () => {
+    const tot = libBfTodo().length; let n = 0, last = null;
+    try {
+      while (!libBfStop) {
+        if (libEl.hidden || libSelMode || libPvOn || libBusy || libEl.classList.contains('work') || (hasImage && libId && libId !== last)) break;
+        const m = libBfTodo()[0]; if (!m) break;
+        libBfMsg = 'Preparando vistas previas… ' + (++n) + ' de ' + tot; libInfo.textContent = libBfMsg;
+        libBusy = true;
+        try { await libOpenQuiet(m.id); last = m.id; libVer++; await libSave(true); }
+        catch (e) { console.error(e); libBfSkip.add(m.id); }
+        finally { libBusy = false; }
+        const nm = libMeta.find(x => x.id === m.id), card = libCards.get(m.id), im = card && card.querySelector('.lc-im img');
+        if (nm && im && nm.thumb) im.src = nm.thumb;
+        await new Promise(r => setTimeout(r, 40));
+      }
+    } finally {
+      if (last && libId === last) { libId = null; libCur = null; }         // el editor no se queda con ninguna foto
+      libBfMsg = ''; libBfRun = null;
+      if (!libEl.hidden && !libPvOn && !libSelMode) libInfo.textContent = libMeta.length ? libMeta.length + (libMeta.length === 1 ? ' foto' : ' fotos') + ' · ' + libBytes(libMeta.reduce((a, m) => a + (m.size || 0), 0)) + ' en este dispositivo' : '';
+    }
+  })();
+  return libBfRun;
 }
 </script>
 
