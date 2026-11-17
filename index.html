@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.17-b">
+<meta name="app-version" content="2026.11.17-c">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -533,6 +533,10 @@
   #libEmpty b{color:var(--txt);font-size:17px;margin-top:6px}
   #libAdd{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#2c2c31;color:#fff;box-shadow:0 8px 26px rgba(0,0,0,.6)}
   #libAdd:active{background:#38383e;transform:scale(.97)}
+  #libRawBtn{position:absolute;right:calc(max(20px,env(safe-area-inset-right)) + 64px + 12px);bottom:calc(24px + 8px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 14px;border-radius:999px;background:#2c2c31;color:#fff;font-weight:600;font-size:15px;line-height:1;font-family:inherit;box-shadow:0 8px 26px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent}
+  #libRawBtn[hidden]{display:none}
+  #libRawBtn:active{background:#38383e;transform:scale(.97)}
+  #libRawBtn .ic{width:22px;height:22px;stroke-width:1.6}
   #libAdd .ic{width:30px;height:30px;stroke-width:1.5}
   #libToast{position:absolute;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translate(-50%,8px);max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;background:rgba(40,40,44,.96);border:1px solid var(--line2);font-weight:600;text-align:center;opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;z-index:4}
   #libToast.on{opacity:1;transform:translate(-50%,0)}
@@ -551,7 +555,7 @@
   #libSelX,#libSelN,#libSelAll,#libBar{display:none}
   #libSelAll{height:36px;min-width:0;padding:0 14px;border-radius:999px;font-size:14px;color:var(--soft)}
   #libSelN{white-space:nowrap;margin-left:2px;font-size:16px;font-weight:650;letter-spacing:-.005em}
-  #lib.pick #libMenuBtn,#lib.pick #libBack,#lib.pick #libAdd{display:none}
+  #lib.pick #libMenuBtn,#lib.pick #libBack,#lib.pick #libAdd,#lib.pick #libRawBtn{display:none}
   #lib.pick #libSelX,#lib.pick #libSelAll{display:inline-flex}
   #lib.pick #libSelN{display:block}
   #lib.pick #libBar{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:26px max(20px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:linear-gradient(0deg,#000 62%,rgba(0,0,0,0))}
@@ -801,6 +805,7 @@
     <div id="libEmpty" hidden><svg class="ic xl"><use href="#i-grid"/></svg><b>Aquí aparecerán tus fotos</b><span>Toca el botón + para añadir una. Se guardará con sus ajustes para que puedas volver a retocarla cuando quieras.</span></div>
   </div>
   <button type="button" id="libAdd" aria-label="Añadir fotos"><svg class="ic"><use href="#i-plus"/></svg></button>
+  <button type="button" id="libRawBtn" hidden aria-label="Añadir fotos RAW u otros archivos"><svg class="ic"><use href="#i-open"/></svg><span>RAW</span></button>
   <div id="libBar" role="toolbar" aria-label="Acciones de la selección">
     <span id="libBarMsg" role="status" aria-live="polite"></span>
     <button type="button" id="libLookBtn" disabled><svg class="ic"><use href="#i-filters"/></svg><span>Aplicar look</span></button>
@@ -822,7 +827,6 @@
     <div class="sheet" role="dialog" aria-label="Menú">
       <h2>Editor de fotos</h2>
       <p class="ver">Versión <b id="verNum">?</b></p>
-      <button type="button" class="sbtn alt" id="btnRawPick" hidden>Abrir un RAW u otro archivo…</button>
       <button type="button" class="sbtn" id="btnUpd"><svg class="ic s"><use href="#i-reset"/></svg>Buscar actualización</button>
       <button type="button" class="sbtn alt" id="btnForce">Descargar de nuevo la app</button>
       <p id="updMsg" role="status" aria-live="polite"></p>
@@ -5716,7 +5720,7 @@ document.getElementById('btnGallery').onclick = () => {
   if (hasImage && libId) libFlush(true).then(() => { if (!libEl.hidden) libRender(); });
 };
 libBack.onclick = libHide;
-document.getElementById('libAdd').onclick = () => { libBfStop = true; fileIn.click(); };
+document.getElementById('libAdd').onclick = () => { libBfStop = true; libAcceptSet(false); fileIn.click(); };
 addEventListener('keydown', ev => { if (ev.key === 'Escape') { if (!libLooks.hidden) libLooks.hidden = true; else if (!libSheet.hidden) libSheet.hidden = true; else if (libSelMode && !libEl.classList.contains('work')) libSetSel(false); else if (!libEl.hidden && hasImage && libId) libHide(); } });
 
 /* Menú de la galería: versión de la app y búsqueda de actualización */
@@ -5902,14 +5906,14 @@ function libBackfill(){
 }
 
 /* Android: con «image/*» a secas el sistema abre tu galería de fotos; con una lista de extensiones (RAW…) abre el explorador de archivos.
-   Por eso en Android el «+» y «Abrir» usan solo «image/*», y los RAW se eligen desde ☰ → «Abrir un RAW u otro archivo…». */
+   Por eso en Android el «+» y «Abrir» usan solo «image/*», y los RAW se añaden con el botón «RAW» que hay junto al «+». */
 const libIsAndroid = /Android/i.test(navigator.userAgent), libFullAccept = fileIn.accept;
 const libAcceptSet = full => { fileIn.accept = (libIsAndroid && !full) ? 'image/*' : libFullAccept; };
 if (libIsAndroid) {
   libAcceptSet(false);
   const lf = document.getElementById('layerFile'); if (lf) lf.accept = 'image/*';
-  const rb = document.getElementById('btnRawPick'); rb.hidden = false;
-  rb.onclick = () => { libSheet.hidden = true; libAcceptSet(true); fileIn.click(); };
+  const rb = document.getElementById('libRawBtn'); rb.hidden = false;
+  rb.onclick = () => { libBfStop = true; libAcceptSet(true); fileIn.click(); };
   ['change', 'cancel'].forEach(n => fileIn.addEventListener(n, () => libAcceptSet(false)));
 }
 </script>
