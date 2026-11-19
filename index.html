@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.17-c">
+<meta name="app-version" content="2026.11.18-a">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -533,10 +533,9 @@
   #libEmpty b{color:var(--txt);font-size:17px;margin-top:6px}
   #libAdd{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#2c2c31;color:#fff;box-shadow:0 8px 26px rgba(0,0,0,.6)}
   #libAdd:active{background:#38383e;transform:scale(.97)}
-  #libRawBtn{position:absolute;right:calc(max(20px,env(safe-area-inset-right)) + 64px + 12px);bottom:calc(24px + 8px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 14px;border-radius:999px;background:#2c2c31;color:#fff;font-weight:600;font-size:15px;line-height:1;font-family:inherit;box-shadow:0 8px 26px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent}
+  #libRawBtn{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;justify-content:center;width:64px;height:64px;padding:0;border-radius:50%;background:#2c2c31;color:#fff;font-weight:700;font-size:14px;letter-spacing:.06em;line-height:1;font-family:inherit;box-shadow:0 8px 26px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent}
   #libRawBtn[hidden]{display:none}
   #libRawBtn:active{background:#38383e;transform:scale(.97)}
-  #libRawBtn .ic{width:22px;height:22px;stroke-width:1.6}
   #libAdd .ic{width:30px;height:30px;stroke-width:1.5}
   #libToast{position:absolute;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translate(-50%,8px);max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;background:rgba(40,40,44,.96);border:1px solid var(--line2);font-weight:600;text-align:center;opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;z-index:4}
   #libToast.on{opacity:1;transform:translate(-50%,0)}
@@ -584,12 +583,15 @@
   #libLookList .lk .ic{flex:none;width:20px;height:20px;color:var(--soft)}
   #libLookList .lk span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #libLooksNone{margin:6px 2px 0;color:var(--mut);font-size:14px;line-height:1.55}
+  #lib.android #libAdd{bottom:calc(24px + 64px + 14px + env(safe-area-inset-bottom))}
+  #lib.android #libScroll{padding-bottom:calc(196px + env(safe-area-inset-bottom))}
+  #lib.android #libToast{bottom:calc(182px + env(safe-area-inset-bottom))}
   #lib.pick #libToast{bottom:calc(110px + env(safe-area-inset-bottom))}
   .lc-open{-webkit-tap-highlight-color:transparent}
   /* barra de selección en pantallas estrechas */
   @media (max-width:400px){#libBar{gap:8px}#libBar button:not(#libEditBtn){padding:0 14px;gap:6px;font-size:14px}}
   @media (max-width:340px){#libBar button:not(#libEditBtn):not(.arm){width:52px;padding:0}#libBar #libLookBtn span,#libBar #libDelBtn:not(.arm) span{display:none}}
-  @media (max-height:500px){#libEditBtn{width:54px;height:54px}#libBar button:not(#libEditBtn){height:46px}}
+  @media (max-height:500px){#lib.android #libAdd{bottom:calc(24px + env(safe-area-inset-bottom));right:calc(max(20px,env(safe-area-inset-right)) + 64px + 14px)}#lib.android #libScroll{padding-bottom:calc(118px + env(safe-area-inset-bottom))}#lib.android #libToast{bottom:calc(104px + env(safe-area-inset-bottom))}#libEditBtn{width:54px;height:54px}#libBar button:not(#libEditBtn){height:46px}}
   /* vista previa a pantalla completa (mantener pulsada una foto) */
   #libPrev{position:absolute;inset:0;z-index:8;pointer-events:none;overflow:hidden;-webkit-touch-callout:none}
   .pv-bg{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .3s ease}
@@ -597,6 +599,37 @@
   #libPrev.on .pv-bg{opacity:1}
   #libPrev.on .pv-img{transform:none}
   @media (prefers-reduced-motion:reduce){.pv-bg,.pv-img{transition-duration:.01s}}
+  /* diálogos propios (guardar look, confirmar borrado): misma familia visual que las hojas de la galería */
+  #dlg{position:fixed;inset:0;z-index:90;display:flex;align-items:flex-start;justify-content:center;padding:max(13vh,calc(env(safe-area-inset-top) + 20px)) 18px 18px;background:rgba(0,0,0,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .2s ease;overflow-y:auto;overscroll-behavior:contain}
+  #dlg[hidden]{display:none}
+  #dlg.on{opacity:1}
+  #dlg .dcard{width:100%;max-width:360px;margin:0;padding:22px 20px 20px;border-radius:24px;background:#171719;border:1px solid var(--line2);box-shadow:0 24px 70px rgba(0,0,0,.65);transform:translateY(12px) scale(.97);transition:transform .3s cubic-bezier(.22,.9,.28,1)}
+  #dlg.on .dcard{transform:none}
+  #dlg .dico{display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin:0 0 14px;border-radius:50%;background:var(--raise2);color:var(--soft)}
+  #dlg .dico .ic{width:22px;height:22px;stroke-width:1.6}
+  #dlg h2{margin:0;font-size:19px;font-weight:650;letter-spacing:-.01em;line-height:1.25;color:var(--txt)}
+  #dlg .dsub{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--mut)}
+  #dlg .dsub[hidden],#dlg .dfield[hidden],#dlg .dnote[hidden]{display:none}
+  #dlg .dfield{margin-top:18px}
+  #dlg input{display:block;width:100%;height:52px;padding:0 16px;border:1px solid var(--line2);border-radius:14px;background:#0f0f11;color:var(--txt);font-family:inherit;font-size:16px;font-weight:550;line-height:1.2;outline:0;caret-color:var(--acc);-webkit-appearance:none;appearance:none;transition:border-color .15s,background .15s}
+  #dlg input::placeholder{color:var(--dim);font-weight:500}
+  #dlg input:focus{border-color:rgba(255,255,255,.42);background:#0b0b0c}
+  #dlg .dnote{min-height:20px;margin:8px 2px 0;font-size:13px;line-height:1.45;color:var(--mut)}
+  #dlg .dnote.warn{color:var(--warn)}
+  #dlg .dbtns{display:flex;gap:10px;margin-top:12px}
+  #dlg .dbtns button{flex:1;min-width:0;height:50px;padding:0 12px;border-radius:14px;font-family:inherit;font-size:15px;font-weight:650;line-height:1;transition:background .15s,transform .1s}
+  #dlg .dbtns button:active{transform:scale(.98)}
+  #dlg .dno{background:var(--raise2);color:var(--txt)}
+  #dlg .dno:active{background:var(--raise3)}
+  #dlg .dok{background:var(--acc);color:var(--onacc)}
+  #dlg .dok:active{background:#d4d4d8}
+  #dlg .dok:disabled{opacity:.35;transform:none}
+  #dlg .dok.danger{background:var(--warnbg);color:var(--warn)}
+  #dlg .dnote[hidden] + .dbtns{margin-top:22px}
+  #dlg button:focus-visible{outline:2px solid rgba(255,255,255,.28);outline-offset:2px}
+  @media (min-width:600px) and (min-height:560px){#dlg{align-items:center;padding-top:18px}}
+  @media (max-height:520px){#dlg{padding-top:12px}#dlg .dico{display:none}#dlg .dfield{margin-top:12px}}
+  @media (prefers-reduced-motion:reduce){#dlg,#dlg .dcard{transition-duration:.01s}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
   /* Capas */
@@ -805,7 +838,7 @@
     <div id="libEmpty" hidden><svg class="ic xl"><use href="#i-grid"/></svg><b>Aquí aparecerán tus fotos</b><span>Toca el botón + para añadir una. Se guardará con sus ajustes para que puedas volver a retocarla cuando quieras.</span></div>
   </div>
   <button type="button" id="libAdd" aria-label="Añadir fotos"><svg class="ic"><use href="#i-plus"/></svg></button>
-  <button type="button" id="libRawBtn" hidden aria-label="Añadir fotos RAW u otros archivos"><svg class="ic"><use href="#i-open"/></svg><span>RAW</span></button>
+  <button type="button" id="libRawBtn" hidden aria-label="Añadir fotos RAW u otros archivos" title="Añadir fotos RAW u otros archivos"><span>RAW</span></button>
   <div id="libBar" role="toolbar" aria-label="Acciones de la selección">
     <span id="libBarMsg" role="status" aria-live="polite"></span>
     <button type="button" id="libLookBtn" disabled><svg class="ic"><use href="#i-filters"/></svg><span>Aplicar look</span></button>
@@ -834,6 +867,17 @@
       <button type="button" class="close" id="libSheetClose">Cerrar</button>
     </div>
   </div>
+</div>
+
+<div id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgT" hidden>
+  <form class="dcard" id="dlgForm" novalidate autocomplete="off">
+    <span class="dico" id="dlgIco" aria-hidden="true"></span>
+    <h2 id="dlgT"></h2>
+    <p class="dsub" id="dlgS"></p>
+    <div class="dfield" id="dlgFld"><input id="dlgIn" type="text" maxlength="40" enterkeyhint="done" autocapitalize="sentences" autocomplete="off" autocorrect="off" spellcheck="false"></div>
+    <p class="dnote" id="dlgNote" role="status" aria-live="polite"></p>
+    <div class="dbtns"><button type="button" class="dno" id="dlgNo">Cancelar</button><button type="submit" class="dok" id="dlgOk">Aceptar</button></div>
+  </form>
 </div>
 
 <!-- Lector RAW sin conexión: LibRaw 0.22.1 (LGPL 2.1 / CDDL 1.0) compilado a WebAssembly + vista previa JPEG incrustada como respaldo -->
@@ -1849,27 +1893,33 @@ function curveEval(pts) {
     return (2 * t3 - 3 * t2 + 1) * ys[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * ys[i + 1] + (t3 - t2) * h * m[i + 1];
   };
 }
-/* Sube la tabla a la GPU solo cuando cambian las curvas, el filtro o la intensidad. Devuelve si hay alguna curva activa. */
-function updateCurveTex() {
-  const fc = active && active.data.__curves ? active.data.__curves : null;
-  const key = JSON.stringify([curves, fc, fc ? strength : 0]);
-  if (key === curveKeyLast) return curveOnNow;
-  curveKeyLast = key;
-  curveOnNow = !(curvesAllId(curves) && !fc);
-  if (!curveOnNow) return false;
+/* Tabla final de las curvas: curvas del filtro (fc, mezcladas con la cantidad fa) y después las tuyas (cs). 256 entradas por canal RGB. */
+function curveTable(fc, fa, cs) {
   const E = {}, F = {};
-  for (const k of CURVE_CH) { E[k] = curveEval(curves[k]); if (fc && fc[k]) F[k] = curveEval(fc[k]); }
+  for (const k of CURVE_CH) { E[k] = curveEval(cs[k]); if (fc && fc[k]) F[k] = curveEval(fc[k]); }
   const data = new Float32Array(256 * 4), cl = v => Math.min(1, Math.max(0, v));
   for (let i = 0; i < 256; i++) {
     const v = i / 255;
     for (let c = 0; c < 3; c++) {
       const ch = CURVE_CH[c + 1];
       let w = v;
-      if (fc) { const pv = F[ch] ? F[ch](F.m ? F.m(v) : v) : (F.m ? F.m(v) : v); w = v + (cl(pv) - v) * strength; }
+      if (fc) { const pv = F[ch] ? F[ch](F.m ? F.m(v) : v) : (F.m ? F.m(v) : v); w = v + (cl(pv) - v) * fa; }
       data[i * 4 + c] = cl(E[ch](cl(E.m(cl(w)))));
     }
     data[i * 4 + 3] = 1;
   }
+  return data;
+}
+/* Sube la tabla a la GPU solo cuando cambian las curvas, el filtro o la intensidad. Devuelve si hay alguna curva activa. */
+function updateCurveTex() {
+  const fc = active && active.data.__curves ? active.data.__curves : null;
+  const fa = fc ? strength * (active.data.__curAmt === undefined ? 1 : active.data.__curAmt) : 0;      // un look guardado recuerda con qué intensidad llevaba las curvas del filtro
+  const key = JSON.stringify([curves, fc, fa]);
+  if (key === curveKeyLast) return curveOnNow;
+  curveKeyLast = key;
+  curveOnNow = !(curvesAllId(curves) && !fc);
+  if (!curveOnNow) return false;
+  const data = curveTable(fc, fa, curves);
   gl.activeTexture(gl.TEXTURE7);
   if (!curveTex) {
     curveTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, curveTex);
@@ -3154,7 +3204,7 @@ function draw(full){
   const lutId = active && active.data.__lut;
   const lt = lutId ? ensureLut(lutId) : null;
   if (lt) { gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_3D, lt); gl.activeTexture(gl.TEXTURE0); }
-  gl.uniform1f(loc.uLutAmt, lt ? strength : 0);
+  gl.uniform1f(loc.uLutAmt, lt ? strength * (active.data.__lutAmt === undefined ? 1 : active.data.__lutAmt) : 0);
   if (active && !lt) {
     gl.uniform3f(loc.uCap, 1,
       1.5 + 1.2 * Math.max(0, vals.saturation) + 0.8 * Math.max(0, vals.vibrance) + Math.max(0, strength - 1),
@@ -4099,12 +4149,14 @@ function renderChips(){
     b.lastChild.textContent = name.replace(/^VSCO /, '');
     b.onclick = () => {
       if (isDock() && data && active && active.name === name && !focusEls.length) { openFocus(document.querySelector('#strengthBox .sl')); return; }       // en el móvil, tocar el filtro elegido abre su intensidad
-      active = data ? { name, data } : null; refreshers.forEach(f => f()); markChips(); requestDraw();
+      active = data ? { name, data } : null;
+      if (user && data && fGrain <= 0 && GRAIN_IDS.some(g => g in data)) { fGrain = 1; GRAIN_IDS.forEach(g => { vals[g] = DEF[g]; }); clearGallery(); }      // el look trae su propio grano: sustituye al que habías elegido a mano
+      lookLayers(); refreshers.forEach(f => f()); markChips(); requestDraw();
     };
     if (user) {
       const x = document.createElement('span'); x.className = 'x'; x.title = 'Borrar'; x.setAttribute('role', 'button'); x.setAttribute('aria-label', 'Borrar ' + name);
       x.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>';
-      x.onclick = ev => { ev.stopPropagation(); if (matchMedia('(hover:none)').matches && !confirm('¿Borrar el look «' + name + '»?')) return; delete userPresets[name]; delete thumbURL[name]; saveUser(); if (active && active.name === name) active = null; refreshers.forEach(f => f()); renderPills(); renderChips(); requestDraw(); };
+      x.onclick = async ev => { ev.stopPropagation(); if (matchMedia('(hover:none)').matches && !(await askConfirm({ title: 'Borrar look', sub: '«' + name + '» se quitará de tus looks guardados. Las fotos que ya lo usan no cambian.', ok: 'Borrar', danger: true, icon: 'i-trash' }))) return; delete userPresets[name]; delete thumbURL[name]; saveUser(); if (active && active.name === name) { active = null; lookLayers(); } refreshers.forEach(f => f()); renderPills(); renderChips(); requestDraw(); };
       b.appendChild(x);
     }
     chips.appendChild(b); tileEls.push([name, b]);
@@ -4122,16 +4174,43 @@ function renderChips(){
 function saveUser(){ try { localStorage.setItem('editor_presets_v2', JSON.stringify(userPresets)); } catch (e) {} }
 makeSlider(document.getElementById('strengthBox'), 'Intensidad', 0, 1.5, 0.01, 1, () => strength, v => { strength = v; refreshers.forEach(f => f()); }, { fmt: v => Math.round(v * 100) + '%', nomod: true });
 makeFGrainBox(document.getElementById('strengthBox').parentNode);
-function saveLook(){
+/* Un look guarda TODOS tus ajustes menos el recorte: los deslizadores (con el grano), el filtro con la intensidad que le diste, las curvas y las
+   capas de fuga de luz y de polvo. No guarda lo que depende de cada foto: el recorte y el giro, las capas con otra foto y los trazos del pincel. */
+function lookLayers(){
+  const nm = active ? active.name : null, ly = active && active.data.__layers;
+  layers = layers.filter(L => !L.fromLook);
+  if (ly) for (const s of ly) { if (layers.length >= LY_MAX) break; const L = JSON.parse(JSON.stringify(s)); L.fromLook = nm; layers.push(L); }
+  if (layerSel >= layers.length) layerSel = layers.length - 1;
+  if (typeof renderLayers === 'function') renderLayers();
+}
+const lookReserved = () => new Set(filterGroups().filter(g => g[0] !== 'mine').flatMap(g => g[2].map(f => f[0])).concat('Ninguno'));
+async function saveLook(){
   if (!hasImage) return;
-  const n = prompt('Nombre del look:'); if (!n) return;
+  const n = await askName({ title: 'Guardar look', sub: 'Se guardan todos tus ajustes menos el recorte. Lo encontrarás en «Míos».', ok: 'Guardar', placeholder: 'Nombre del look', exists: userPresets, reserved: lookReserved() });
+  if (!n || !hasImage) return;
   const e = eff(), o = {};
   for (const p of ALL) if (Math.abs(e[p[0]] - DEF[p[0]]) > 1e-6) o[p[0]] = e[p[0]];
-  if (active && active.data.__lut) o.__lut = active.data.__lut;
-  if (!curvesAllId(curves)) { o.__curves = JSON.parse(JSON.stringify(curves)); CURVE_CH.forEach(k => { curves[k] = [[0, 0], [1, 1]]; }); }
-  else if (active && active.data.__curves) o.__curves = active.data.__curves;
-  userPresets[n] = o; saveUser();
-  active = { name: n, data: o }; strength = 1; if (fGrain > 0) fGrain = 1; Object.assign(vals, DEF); clearGallery();      // el grano ya va dentro del look (con fGrain = 0 se queda quitado)
+  if (active && active.data.__lut) {
+    o.__lut = active.data.__lut;
+    const a = strength * (active.data.__lutAmt === undefined ? 1 : active.data.__lutAmt);
+    if (Math.abs(a - 1) > 1e-4) o.__lutAmt = a;
+  }
+  const fc = active && active.data.__curves ? active.data.__curves : null;
+  const fa = fc ? strength * (active.data.__curAmt === undefined ? 1 : active.data.__curAmt) : 0;
+  if (!curvesAllId(curves)) {
+    if (!fc) o.__curves = JSON.parse(JSON.stringify(curves));
+    else {          // curvas del filtro + las tuyas: se funden en una sola (33 puntos por canal, la spline pasa por ellos)
+      const T = curveTable(fc, fa, curves), q = { m: [[0, 0], [1, 1]] };
+      for (let c = 0; c < 3; c++) { const pts = []; for (let i = 0; i <= 32; i++) { const j = Math.round(i / 32 * 255); pts.push([j / 255, T[j * 4 + c]]); } q[CURVE_CH[c + 1]] = pts; }
+      o.__curves = q;
+    }
+    CURVE_CH.forEach(k => { curves[k] = [[0, 0], [1, 1]]; });
+  } else if (fc) { o.__curves = JSON.parse(JSON.stringify(fc)); if (Math.abs(fa - 1) > 1e-4) o.__curAmt = fa; }
+  const lys = layers.filter(L => L.kind !== 'photo');
+  if (lys.length) o.__layers = lys.map(L => { const c = JSON.parse(JSON.stringify(L)); delete c.fromLook; return c; });
+  userPresets[n] = o; saveUser(); delete thumbURL[n];
+  layers = layers.filter(L => L.kind === 'photo');        // las capas de luz y polvo ya van dentro del look: se vuelven a poner desde él
+  active = { name: n, data: o }; strength = 1; fGrain = 1; Object.assign(vals, DEF); clearGallery(); lookLayers();      // fGrain = 1: el grano ya va dentro del look
   refreshers.forEach(f => f()); fCat = 'mine'; renderPills(); renderChips(); requestDraw(); ensureThumbs();
 }
 TAB_ACT.filters = { icon: 'i-bookmark', label: 'Guardar look', fn: saveLook };
@@ -5857,7 +5936,7 @@ async function libApplyLook(name){
       libBarMsg.textContent = 'Aplicando… ' + (i + 1) + ' de ' + ids.length;
       try {
         if (libId !== ids[i]) await libOpenQuiet(ids[i]);
-        active = { name, data }; strength = 1; fGrain = 1;
+        active = { name, data }; strength = 1; fGrain = 1; lookLayers();
         refreshers.forEach(f => f()); if (typeof markChips === 'function') markChips(); if (typeof updateDots === 'function') updateDots(); requestDraw();
         libVer++; await libSave(true); ok++;
       } catch (e) { console.error(e); }
@@ -5906,16 +5985,83 @@ function libBackfill(){
 }
 
 /* Android: con «image/*» a secas el sistema abre tu galería de fotos; con una lista de extensiones (RAW…) abre el explorador de archivos.
-   Por eso en Android el «+» y «Abrir» usan solo «image/*», y los RAW se añaden con el botón «RAW» que hay junto al «+». */
+   Por eso en Android el «+» y «Abrir» usan solo «image/*», y los RAW se añaden con el botón redondo «RAW» que hay debajo del «+». */
 const libIsAndroid = /Android/i.test(navigator.userAgent), libFullAccept = fileIn.accept;
 const libAcceptSet = full => { fileIn.accept = (libIsAndroid && !full) ? 'image/*' : libFullAccept; };
 if (libIsAndroid) {
   libAcceptSet(false);
   const lf = document.getElementById('layerFile'); if (lf) lf.accept = 'image/*';
+  libEl.classList.add('android');
   const rb = document.getElementById('libRawBtn'); rb.hidden = false;
   rb.onclick = () => { libBfStop = true; libAcceptSet(true); fileIn.click(); };
   ['change', 'cancel'].forEach(n => fileIn.addEventListener(n, () => libAcceptSet(false)));
 }
+
+
+/* ====================== Diálogos propios ======================
+   En vez del prompt / confirm del navegador (planos, de otro estilo): una tarjeta con el mismo diseño que el resto de la app.
+   askName({title, sub, ok, placeholder, exists, reserved}) → texto o null.  askConfirm({title, sub, ok, danger, icon}) → true / false. */
+const dlgEl = document.getElementById('dlg'), dlgForm = document.getElementById('dlgForm'), dlgIn = document.getElementById('dlgIn');
+const dlgT = document.getElementById('dlgT'), dlgS = document.getElementById('dlgS'), dlgIco = document.getElementById('dlgIco'), dlgFld = document.getElementById('dlgFld');
+const dlgNote = document.getElementById('dlgNote'), dlgOk = document.getElementById('dlgOk'), dlgNo = document.getElementById('dlgNo');
+let dlgRes = null, dlgAsk = false, dlgOpts = {}, dlgBack = null, dlgTimer = 0;
+function dlgFinish(v){
+  if (!dlgRes) return;
+  const r = dlgRes; dlgRes = null;
+  dlgEl.classList.remove('on');
+  clearTimeout(dlgTimer); dlgTimer = setTimeout(() => { if (!dlgRes) dlgEl.hidden = true; }, 240);
+  try { if (dlgBack && dlgBack.isConnected && dlgBack.focus) dlgBack.focus({ preventScroll: true }); } catch (e) {}
+  r(v);
+}
+function dlgSync(){
+  const o = dlgOpts;
+  if (!dlgAsk) { dlgOk.disabled = false; return; }
+  const v = dlgIn.value.trim();
+  const reserved = !!(o.reserved && o.reserved.has(v)), exists = !reserved && !!(o.exists && Object.prototype.hasOwnProperty.call(o.exists, v));
+  dlgOk.disabled = !v || reserved;
+  dlgNote.className = 'dnote' + (reserved || exists ? ' warn' : '');
+  dlgNote.textContent = reserved ? 'Ese nombre lo usa un filtro de la app. Elige otro.' : exists ? 'Ya tienes un look con ese nombre. Si sigues, se reemplazará.' : '';
+  dlgOk.textContent = exists ? 'Reemplazar' : (o.ok || 'Aceptar');
+}
+function dlgOpen(o, ask){
+  if (dlgRes) dlgFinish(ask ? null : false);
+  clearTimeout(dlgTimer);
+  dlgOpts = o || {}; dlgAsk = !!ask; dlgBack = document.activeElement;
+  dlgT.textContent = dlgOpts.title || ''; dlgS.textContent = dlgOpts.sub || ''; dlgS.hidden = !dlgOpts.sub;
+  dlgIco.innerHTML = '<svg class="ic"><use href="#' + (dlgOpts.icon || 'i-bookmark') + '"/></svg>';
+  dlgFld.hidden = !dlgAsk; dlgIn.value = dlgOpts.value || ''; dlgIn.placeholder = dlgOpts.placeholder || '';
+  dlgIn.setAttribute('aria-label', dlgOpts.title || 'Nombre');
+  dlgNote.textContent = ''; dlgNote.className = 'dnote'; dlgNote.hidden = !dlgAsk;
+  dlgNo.textContent = dlgOpts.no || 'Cancelar'; dlgOk.textContent = dlgOpts.ok || 'Aceptar'; dlgOk.classList.toggle('danger', !!dlgOpts.danger);
+  dlgSync();
+  dlgEl.hidden = false; void dlgEl.offsetWidth; dlgEl.classList.add('on');
+  return new Promise(res => {
+    dlgRes = res;
+    try { if (dlgAsk) { dlgIn.focus({ preventScroll: true }); dlgIn.select(); } else (dlgOpts.danger ? dlgNo : dlgOk).focus({ preventScroll: true }); } catch (e) {}
+  });
+}
+const askName = o => dlgOpen(o, true);
+const askConfirm = o => dlgOpen(o, false).then(v => v === true);
+dlgIn.addEventListener('input', dlgSync);
+dlgForm.addEventListener('submit', ev => {
+  ev.preventDefault();
+  if (!dlgRes) return;
+  if (dlgAsk) { if (dlgOk.disabled) return; dlgFinish(dlgIn.value.trim()); } else dlgFinish(true);
+});
+dlgNo.addEventListener('click', () => dlgFinish(dlgAsk ? null : false));
+dlgEl.addEventListener('pointerdown', ev => { if (ev.target === dlgEl) dlgFinish(dlgAsk ? null : false); });
+dlgEl.addEventListener('keydown', ev => {
+  ev.stopPropagation();          // las teclas del editor (atajos, comparar con «\») no deben actuar mientras escribes
+  if (ev.key === 'Escape') { ev.preventDefault(); dlgFinish(dlgAsk ? null : false); }
+  else if (ev.key === 'Tab') {
+    const f = [dlgAsk ? dlgIn : null, dlgNo, dlgOk].filter(x => x && !x.disabled && !x.hidden);
+    if (!f.length) return;
+    const i = f.indexOf(document.activeElement);
+    if (ev.shiftKey && i <= 0) { ev.preventDefault(); f[f.length - 1].focus(); }
+    else if (!ev.shiftKey && i === f.length - 1) { ev.preventDefault(); f[0].focus(); }
+  }
+});
+dlgEl.addEventListener('keyup', ev => ev.stopPropagation());
 </script>
 
 <!-- Decodificador HEIC: libheif (LGPL-3.0, strukturag/libheif) compilado a WebAssembly con libheif-emscripten. Solo se ejecuta cuando abres un HEIC que el navegador no sabe leer. -->
