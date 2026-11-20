@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="app-version" content="2026.11.18-a">
+<meta name="app-version" content="2026.11.19-a">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -155,7 +155,7 @@
   /* ---------- Filtros ---------- */
   .fhead{position:sticky;top:0;z-index:2;margin:0 -16px 10px;padding:4px 16px 8px;background:var(--panel);box-shadow:0 8px 12px -8px var(--panel)}
   .fhead .sl{margin:0}
-  #strengthBox .sl-h output{color:var(--soft)}
+  #strengthBox .sl-h output,#dzStrength .sl-h output{color:var(--soft)}
   .pills,.pillwrap{display:flex;flex-wrap:wrap;gap:5px}
   .pills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 14px}
   .pills .pill{padding:0 6px}
@@ -299,18 +299,18 @@
     #tab-adjust>details.grp[data-g="HSL"]{margin-left:0}
     #tab-adjust::after{content:"";flex:none;width:calc(100% - 130px)}
     #tab-adjust details.grp[data-g="HSL"] .sl:not(.hsltile):not(.mf),#tab-adjust details.grp[data-g="Tono dividido"] .sl:not(.sptile):not(.mf),#tab-adjust .bands:not(.mf),#pbody #tab-adjust .pills.spzones:not(.mf){display:none}
-    #tab-fx details.grp>summary{display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--tilew);height:auto;margin:0;padding:0;border:0;background:none;font-size:10.5px;font-weight:500;letter-spacing:0;text-transform:none;line-height:1.15;color:var(--mut);text-align:center;cursor:pointer;pointer-events:auto}
-    #tab-fx details.grp>summary::after,#tab-fx details.grp>summary .mdot{display:none}
-    #tab-fx details.grp.mod>summary{color:var(--txt)}
-    #tab-fx details.grp>.grp-body{display:none}
+    #tab-fx details.grp>summary,#tab-dream details.grp>summary{display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--tilew);height:auto;margin:0;padding:0;border:0;background:none;font-size:10.5px;font-weight:500;letter-spacing:0;text-transform:none;line-height:1.15;color:var(--mut);text-align:center;cursor:pointer;pointer-events:auto}
+    #tab-fx details.grp>summary::after,#tab-dream details.grp>summary::after,#tab-fx details.grp>summary .mdot,#tab-dream details.grp>summary .mdot{display:none}
+    #tab-fx details.grp.mod>summary,#tab-dream details.grp.mod>summary{color:var(--txt)}
+    #tab-fx details.grp>.grp-body,#tab-dream details.grp>.grp-body{display:none}
     /* contenedores que se «aplanan» para que cada control sea una pieza de la fila */
-    #pbody .fgbox,#pbody .field,#pbody .pillwrap,#pbody .pills:not(#pills),#pbody .row,#pbody #brushSl,#pbody .tools3,#pbody #angleBox,#pbody #strengthBox,#pbody .lyr,#pbody .lyr-body,#pbody .lyr-tools,#pbody .lyr-row,#pbody #lyList,#pbody .lyr-add,#pbody .lyr-body>div:not([class]),#pbody section>div:not([class]):not([id]),#pbody .gal{display:contents}
+    #pbody .fgbox,#pbody .field,#pbody .pillwrap,#pbody .pills:not(#pills),#pbody .row,#pbody #brushSl,#pbody .tools3,#pbody #angleBox,#pbody #strengthBox,#pbody #dzStrength,#pbody .lyr,#pbody .lyr-body,#pbody .lyr-tools,#pbody .lyr-row,#pbody #lyList,#pbody .lyr-add,#pbody .lyr-body>div:not([class]),#pbody section>div:not([class]):not([id]),#pbody .gal{display:contents}
     #pbody .note,#pbody .hint,#pbody .fl,#pbody .fgbox .pill,#pbody #curveInfo{display:none}
 
     /* herramienta = icono en un círculo + nombre; si está editada, el círculo se enciende y aparece su valor */
-    #pbody .tic,#tab-fx details.grp>summary .tic{display:block;flex:none;box-sizing:content-box;width:22px;height:22px;padding:12px;border-radius:50%;background:var(--raise);color:var(--soft);stroke-width:1.5;transition:background .12s,color .12s}
-    #pbody .sl.mod .tic,#tab-fx details.grp.mod>summary .tic{background:var(--raise3);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
-    #pbody .sl:active .tic,#tab-fx details.grp>summary:active .tic{background:var(--raise2)}
+    #pbody .tic,#tab-fx details.grp>summary .tic,#tab-dream details.grp>summary .tic{display:block;flex:none;box-sizing:content-box;width:22px;height:22px;padding:12px;border-radius:50%;background:var(--raise);color:var(--soft);stroke-width:1.5;transition:background .12s,color .12s}
+    #pbody .sl.mod .tic,#tab-fx details.grp.mod>summary .tic,#tab-dream details.grp.mod>summary .tic{background:var(--raise3);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
+    #pbody .sl:active .tic,#tab-fx details.grp>summary:active .tic,#tab-dream details.grp>summary:active .tic{background:var(--raise2)}
     #pbody .sl{flex:none;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:var(--tilew);height:auto;margin:0;padding:0;background:none;cursor:pointer}
     #pbody .sl .sl-h{display:contents}
     #pbody .sl label{max-width:100%;font-size:10.5px;line-height:1.15;color:var(--mut);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;pointer-events:none}
@@ -345,16 +345,16 @@
     #pbody .lyr-add .btn{padding:0 14px}
 
     /* filtros: miniaturas en fila (el primer toque elige el filtro; tocar el elegido abre su intensidad) */
-    #app #pbody>#tab-filters.on{align-items:flex-start;padding:8px 18px 0 14px}
-    #tab-filters .fhead,#tab-filters #pills,#tab-filters>.note{display:none}
-    #tab-filters #chips{display:contents}
-    #tab-filters .gh{flex:none;align-self:flex-start;height:78px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin:0 0 0 2px;padding:0 2px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:9.5px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-    #tab-filters .tile{flex:none;width:66px;gap:5px}
-    #tab-filters .tile .im{border-radius:11px}
-    #tab-filters .tile .nm{display:block;-webkit-line-clamp:unset;white-space:nowrap;text-overflow:ellipsis;font-size:10.5px;line-height:1.2;text-align:center}
-    #tab-filters .tile.on .im{box-shadow:0 0 0 2px #fff}
-    #tab-filters .tile.on .nm{color:#fff}
-    #tab-filters .tile.on .im::after{content:"";position:absolute;right:4px;bottom:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h8M16 7h4M4 17h3M11 17h9'/%3E%3Ccircle cx='14' cy='7' r='2'/%3E%3Ccircle cx='9' cy='17' r='2'/%3E%3C/svg%3E") center/13px no-repeat}
+    #app #pbody>#tab-filters.on,#app #pbody>#tab-dream.on{align-items:flex-start;padding:8px 18px 0 14px}
+    #tab-filters .fhead,#tab-dream .fhead,#tab-filters #pills,#tab-dream #pills,#tab-filters>.note,#tab-dream>.note{display:none}
+    #tab-filters #chips,#tab-dream #dzLooks{display:contents}
+    #tab-filters .gh,#tab-dream .gh{flex:none;align-self:flex-start;height:78px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin:0 0 0 2px;padding:0 2px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:9.5px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+    #tab-filters .tile,#tab-dream .tile{flex:none;width:66px;gap:5px}
+    #tab-filters .tile .im,#tab-dream .tile .im{border-radius:11px}
+    #tab-filters .tile .nm,#tab-dream .tile .nm{display:block;-webkit-line-clamp:unset;white-space:nowrap;text-overflow:ellipsis;font-size:10.5px;line-height:1.2;text-align:center}
+    #tab-filters .tile.on .im,#tab-dream .tile.on .im{box-shadow:0 0 0 2px #fff}
+    #tab-filters .tile.on .nm,#tab-dream .tile.on .nm{color:#fff}
+    #tab-filters .tile.on .im::after,#tab-dream .tile.on .im::after{content:"";position:absolute;right:4px;bottom:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h8M16 7h4M4 17h3M11 17h9'/%3E%3Ccircle cx='14' cy='7' r='2'/%3E%3Ccircle cx='9' cy='17' r='2'/%3E%3C/svg%3E") center/13px no-repeat}
 
     /* curvas: el gráfico a la izquierda y los canales a la derecha */
     #app #pbody>#tab-curves.on{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;justify-content:start;align-content:center;gap:8px 14px;padding:0 14px;overflow:hidden;touch-action:auto;-webkit-mask-image:none;mask-image:none}
@@ -377,13 +377,13 @@
     #app.mf #pbody{height:auto;max-height:min(330px,52dvh);overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
     #app.mf #pbody::-webkit-scrollbar{display:none}
     #app.mf #pbody>section.on{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:0;height:auto;padding:6px 26px 0;overflow:visible;touch-action:pan-y;-webkit-mask-image:none;mask-image:none}
-    #app.mf #pbody>#tab-filters.on{align-items:stretch;padding:6px 26px 0}
+    #app.mf #pbody>#tab-filters.on,#app.mf #pbody>#tab-dream.on{align-items:stretch;padding:6px 26px 0}
     #app.mf #pbody details.grp:not(:has(.mf)){display:none}
     #app.mf #pbody details.grp:has(.mf){display:block}
-    #app.mf #tab-fx details.grp:has(.mf)>.grp-body{display:flex}
+    #app.mf #tab-fx details.grp:has(.mf)>.grp-body,#app.mf #tab-dream details.grp:has(.mf)>.grp-body{display:flex}
     #app.mf #pbody .grp-body:has(.mf){flex-direction:column;align-items:stretch;gap:0}
     #app.mf #pbody :is(.sl,.seg,.pill,.pills,.btn,.tool,.sel,.seedrow,.card,.lyr-h,.bands,summary,.tile,.gh,.lyr-tools button):not(.mf){display:none}
-    #app.mf #tab-filters .fhead{display:contents}
+    #app.mf #tab-filters .fhead,#app.mf #tab-dream .fhead{display:contents}
     /* selectores (tipo de fuga, semilla, colores del HSL): una sola fila fija abajo; los deslizadores se desplazan por encima */
     #app.mf #pbody .pills.mf{display:flex;flex-wrap:nowrap;gap:6px;justify-content:flex-start;margin:0;padding:6px 0;order:5;position:sticky;bottom:0;z-index:2;background:var(--bg);overflow-x:auto;scrollbar-width:none}
     #app.mf #pbody .pills.mf::-webkit-scrollbar{display:none}
@@ -475,10 +475,10 @@
     #side{padding:0 0 env(safe-area-inset-bottom)}
     #crAct{margin-right:10px}
     .chip{height:28px}
-    #pbody .tic,#tab-fx details.grp>summary .tic{padding:9px}
-    #tab-filters .tile{width:56px}
-    #tab-filters .gh{height:66px}
-    #app #pbody>#tab-filters.on{padding-top:4px}
+    #pbody .tic,#tab-fx details.grp>summary .tic,#tab-dream details.grp>summary .tic{padding:9px}
+    #tab-filters .tile,#tab-dream .tile{width:56px}
+    #tab-filters .gh,#tab-dream .gh{height:66px}
+    #app #pbody>#tab-filters.on,#app #pbody>#tab-dream.on{padding-top:4px}
     #zoombar{bottom:8px}
     #app.mf{grid-template-columns:minmax(0,1fr) minmax(300px,46%);grid-template-rows:minmax(0,1fr);grid-template-areas:"stage side"}
     #app.mf #side{min-height:0;height:100%}
@@ -658,6 +658,8 @@
   .lyr-tools button:hover:not(:disabled){background:var(--raise2);color:var(--txt)}
   .lyr-tools button:disabled{opacity:.3;pointer-events:none}
   .lyr-row .pill.on{background:var(--acc);color:var(--onacc)}
+/* Dream: «Ninguno» no tiene intensidad que ajustar, así que no lleva el icono de ajuste */
+#dzLooks .tile[title="Ninguno"] .im::after{display:none!important}
 </style>
 </head>
 <body>
@@ -672,6 +674,10 @@
   <symbol id="i-adjust" viewBox="0 0 24 24"><path d="M4 7h8"/><path d="M16 7h4"/><circle cx="14" cy="7" r="2"/><path d="M4 17h3"/><path d="M11 17h9"/><circle cx="9" cy="17" r="2"/></symbol>
   <symbol id="i-curves" viewBox="0 0 24 24"><path d="M4 20C11 20 8 4 20 4"/><circle cx="4" cy="20" r="1.3"/><circle cx="20" cy="4" r="1.3"/></symbol>
   <symbol id="i-grain" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="6" cy="6.5" r="1.4"/><circle cx="12.5" cy="4.5" r="1.1"/><circle cx="18" cy="7" r="1.5"/><circle cx="9" cy="11.5" r="1.1"/><circle cx="15.5" cy="12" r="1.4"/><circle cx="5" cy="17" r="1.2"/><circle cx="11" cy="18" r="1.5"/><circle cx="18.5" cy="18" r="1.1"/><circle cx="21" cy="12.5" r=".8"/><circle cx="3.5" cy="11.5" r=".8"/></g></symbol>
+  <symbol id="i-dream" viewBox="0 0 24 24"><path d="M7.5 18.5a4.2 4.2 0 0 1-.7-8.3 5.6 5.6 0 0 1 10.7 1.3 3.5 3.5 0 0 1-.5 7z"/><path d="M18.5 3.5v3M17 5h3"/></symbol>
+  <symbol id="t-blur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.500" stroke-dasharray="2 2.600"/><circle cx="12" cy="12" r="9.500" stroke-dasharray="1 3.400" opacity=".7"/></symbol>
+  <symbol id="t-zone" viewBox="0 0 24 24"><rect x="3.500" y="5" width="17" height="14" rx="3" stroke-dasharray="2.200 2.600"/><rect x="8.500" y="9" width="7" height="6" rx="1.500"/></symbol>
+  <symbol id="t-bleed" viewBox="0 0 24 24"><circle cx="9.500" cy="10" r="5.500"/><circle cx="14.500" cy="14" r="5.500"/></symbol>
   <symbol id="i-fx" viewBox="0 0 24 24"><path d="M10 4l1.6 4.4L16 10l-4.4 1.6L10 16l-1.6-4.4L4 10l4.4-1.6z"/><path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"/></symbol>
   <symbol id="i-crop" viewBox="0 0 24 24"><path d="M7 3v13a2 2 0 0 0 2 2h12"/><path d="M17 21V8a2 2 0 0 0-2-2H3"/></symbol>
   <symbol id="i-brush" viewBox="0 0 24 24"><path d="M14.6 5.4l4 4-7.7 7.7-4-4z"/><path d="M17.6 3.4a1.9 1.9 0 0 1 3 2.4l-1.5 1.5-2.9-2.9z"/><path d="M6.9 13.1c-2.3 0-3.4 1.6-3.4 3.4 0 1.4-.6 2.3-1.5 3 3.5 1.2 7.4.3 8.8-2.7"/></symbol>
@@ -769,6 +775,7 @@
     <button class="rt" data-tab="curves" title="Curvas"><svg class="ic"><use href="#i-curves"/></svg><span>Curvas</span><i class="dot"></i></button>
     <button class="rt" data-tab="grain" title="Grano"><svg class="ic"><use href="#i-grain"/></svg><span>Grano</span><i class="dot"></i></button>
     <button class="rt" data-tab="fx" title="Efectos"><svg class="ic"><use href="#i-fx"/></svg><span>Efectos</span><i class="dot"></i></button>
+    <button class="rt" data-tab="dream" title="Dream: looks suaves con desenfoque, resplandor, halación y grano propios"><svg class="ic"><use href="#i-dream"/></svg><span>Dream</span><i class="dot"></i></button>
     <button class="rt" data-tab="layers" title="Capas: fotos, fugas de luz y polvo con opacidad y modos de mezcla"><svg class="ic"><use href="#i-layers"/></svg><span>Capas</span><i class="dot"></i></button>
     <button class="rt" data-tab="brush" title="Pincel: aclarar y oscurecer zonas"><svg class="ic"><use href="#i-brush"/></svg><span>Pincel</span><i class="dot"></i></button>
     <button class="rt" data-tab="crop" title="Recortar y enderezar"><svg class="ic"><use href="#i-crop"/></svg><span>Recortar</span><i class="dot"></i></button>
@@ -807,6 +814,7 @@
       <section id="tab-curves"></section>
       <section id="tab-grain"></section>
       <section id="tab-fx"></section>
+      <section id="tab-dream"></section>
       <section id="tab-layers"></section>
       <section id="tab-brush"></section>
       <section id="tab-crop"></section>
@@ -1775,6 +1783,31 @@ const GROUPS = [
     ['grainMid','Medios tonos',0,1.5,0.01,1.0],
     ['grainHigh','Luces',0,1.5,0.01,1.0],
   ]],
+  ['Dream', false, [
+    ['dzBlur','Desenfoque',0,1,0.01,0],
+    ['dzMode','Modo del desenfoque',0,6,1,0],
+    ['dzAngle','Ángulo',0,360,1,0],
+    ['dzBloom','Luz expansiva',0,1,0.01,0],
+    ['dzEdges','Solo bordes',0,1,0.01,0],
+    ['dzFocus','Foco',0,1,0.01,0.5],
+    ['dzFocusPos','Posición del foco',-1,1,0.01,0],
+    ['dzBalance','Balance',-1,1,0.01,0],
+    ['dzTint','Tinte del desenfoque',0,1,0.01,0],
+    ['dzTintHue','Tono del tinte',0,360,1,270],
+    ['dzBleed','Sangrado de color',0,1,0.01,0],
+    ['dzAberr','Aberración',0,1,0.01,0],
+    ['dzGlow','Resplandor',0,1,0.01,0],
+    ['dzGlowSize','Radio del resplandor',0,1,0.01,0.5],
+    ['dzGlowMode','Modo del resplandor',0,3,1,0],
+    ['dzGlowHue','Color del resplandor',0,360,1,30],
+    ['dzHal','Halación',0,1,0.01,0],
+    ['dzHalSize','Tamaño de la halación',0,1,0.01,0.5],
+    ['dzHalHue','Color de la halación',0,360,1,12],
+    ['dzHalThr','Umbral de la halación',0,1,0.01,0.5],
+    ['dzGrain','Grano',0,1,0.01,0],
+    ['dzGrainSize','Tamaño del grano',0.3,3,0.01,1.0],
+    ['dzGrainMode','Tipo de grano',0,4,1,0],
+  ]],
   ['Tono dividido', false, [
     ['shHue','Sombras · tono',0,360,1,200],
     ['shSat','Sombras · intens.',0,1,0.01,0],
@@ -1934,7 +1967,7 @@ function updateCurveTex() {
 /* Valores efectivos = ajustes manuales + capa del filtro * intensidad.
    Los deslizadores muestran SIEMPRE el valor efectivo (lo que se aplica de verdad): al elegir un filtro se mueven a sus valores y
    se pueden retocar; lo que cambias se guarda como diferencia respecto a la capa del filtro (ver setE). */
-const HUE_LAYER = new Set(['leakHue', 'leakAngle', 'leakType', 'leakSeed', 'dustSeed', 'shHue', 'hiHue', 'midHue']);   // valores que no se suman: gana el manual si lo tocaste
+const HUE_LAYER = new Set(['leakHue', 'leakAngle', 'leakType', 'leakSeed', 'dustSeed', 'shHue', 'hiHue', 'midHue', 'dzMode', 'dzAngle', 'dzFocusPos', 'dzTintHue', 'dzGlowMode', 'dzGlowHue', 'dzHalHue', 'dzGrainMode']);   // valores que no se suman: gana el manual si lo tocaste
 /* Grano propio del filtro: fGrain escala SOLO la cantidad (0 = el filtro no mete grano; 1 = el del filtro; hasta 1,5). Con 0 también se quitan
    el tamaño, la rugosidad y el resto de parámetros de grano del filtro, para que un grano elegido a mano salga tal cual. */
 let fGrain = 1;
@@ -1980,6 +2013,20 @@ const FS = `#version 300 es
 precision highp float;
 in vec2 vUv; out vec4 outColor;
 uniform sampler2D uTex;
+#ifdef DREAM
+precision highp sampler2DArray;
+uniform sampler2DArray uDz;    // Dream: niveles de desenfoque (0..2), resplandor (3), halación (4) y sangrado de color (5), calculados aparte a baja resolución
+uniform sampler2D uDzGrain;    // Dream: grano propio (mismo modelo que el grano normal, otro patrón y otros ajustes)
+uniform vec4 uDzG;             // grano de Dream: x = lado de la textura, y = nivel de mipmap, z = ganancia por el zoom
+// Las luces hinchadas de Dream valen mucho más que 1 (luz expansiva). Antes de mezclarlas se comprimen CONSERVANDO el color (un canal máximo
+// de 1 y una mancha de blanco en el núcleo): si no, los modos «pantalla» invertirían los canales (núcleo azul en un sol naranja).
+vec3 dzc(vec3 v){
+  float m = max(v.r, max(v.g, v.b));
+  if (m <= 1.0) return v;
+  return mix(v / m, vec3(1.0), (1.0 - exp(-(m - 1.0) * 0.35)) * 0.6);
+}
+vec3 dzL(vec2 p, float i){ return dzc(textureLod(uDz, vec3(p, i), 0.0).rgb); }
+#endif
 uniform vec2 uRes;
 uniform vec2 uTexSize;
 uniform vec4 uMv;
@@ -2382,6 +2429,17 @@ void main(){
     ab.b = srcSample((uTexSize * 0.5 + M * ((fuv - dv * ak - 0.5) * uOut + uOff)) / uTexSize).b;
     base = mix(base, ab, u_aberOp);
   }
+#ifdef DREAM
+  // Aberración de Dream: franjas rojas y azules que crecen hacia los bordes
+  if (u_dzAberr > 0.0){
+    vec2 dv = fuv - 0.5; float dl = length(dv);
+    vec2 sh = dv * (0.35 + 1.5 * dl) * u_dzAberr * 0.03;
+    vec3 ab = base;
+    ab.r = srcSample((uTexSize * 0.5 + M * ((fuv + sh - 0.5) * uOut + uOff)) / uTexSize).r;
+    ab.b = srcSample((uTexSize * 0.5 + M * ((fuv - sh - 0.5) * uOut + uOff)) / uTexSize).b;
+    base = ab;
+  }
+#endif
 
   vec3 org = base;                                   // color original del píxel (referencia para integrar el filtro)
   vec2 tx = max(1.0, max(uOut.x, uOut.y) / 1600.0) / uTexSize;
@@ -2402,6 +2460,70 @@ void main(){
     float mm = 1.0 - pow(abs(2.0*clamp(lb,0.0,1.0) - 1.0), 2.0) * 0.7;
     c += (lb - lbl) * u_clarity * 1.6 * mm;
   }
+
+#ifdef DREAM
+  // DREAM: desenfoque con modos, sangrado de color, resplandor y halación propios. Los desenfoques se calculan aparte, a baja resolución
+  // (dzBake), así que aquí solo se leen y se mezclan con la foto nítida según la zona (bordes, banda inclinada, tonos).
+  if (u_dzBlur > 0.0 || u_dzBleed > 0.0 || u_dzGlow > 0.0 || u_dzHal > 0.0){
+    if (u_dzBlur > 0.0){
+      float md = u_dzMode < 0.5 ? 1.0 : floor(u_dzMode + 0.5);
+      vec2 pp = (fuv - 0.5) * 2.0;
+      float lc0 = dot(c, LUMA);
+      float m = 1.0;
+      if (md == 3.0){
+        float ta = radians(u_dzAngle);
+        float dist = abs(dot(pp, vec2(-sin(ta), cos(ta))) - u_dzFocusPos);
+        float hw = mix(0.06, 0.55, u_dzFocus);
+        m = smoothstep(hw, hw + 0.5, dist);
+      } else if (u_dzEdges > 0.0){
+        float fr = mix(0.10, 0.80, u_dzFocus);
+        m = mix(1.0, smoothstep(fr, fr + 0.5, length(pp) * 0.7071), u_dzEdges);
+      }
+      if (u_dzBalance > 0.0) m *= mix(1.0, smoothstep(0.15, 0.75, lc0), u_dzBalance);
+      else if (u_dzBalance < 0.0) m *= mix(1.0, 1.0 - smoothstep(0.25, 0.85, lc0), -u_dzBalance);
+      float t = clamp(m, 0.0, 1.0) * 3.0;
+      vec3 bl;
+      if (t <= 1.0) bl = mix(c, dzL(uv, 0.0), t);
+      else if (t <= 2.0) bl = mix(dzL(uv, 0.0), dzL(uv, 1.0), t - 1.0);
+      else bl = mix(dzL(uv, 1.0), dzL(uv, 2.0), t - 2.0);
+      float tw = min(t, 1.0);
+      if (md == 2.0) bl = mix(bl, 1.0 - (1.0 - c) * (1.0 - clamp(bl * 0.9, 0.0, 1.0)), 0.55 * tw);
+      if (u_dzBloom > 0.0) bl += bl * u_dzBloom * 0.5 * smoothstep(0.35, 0.95, dot(bl, LUMA)) * tw;
+      if (u_dzTint > 0.0){
+        vec3 tc = mix(vec3(1.0), hue2rgb(u_dzTintHue / 360.0), 0.6); tc /= dot(tc, LUMA);
+        bl = mix(bl, dot(bl, LUMA) * tc, u_dzTint * 0.85 * tw);
+      }
+      c = bl;
+    }
+    if (u_dzBleed > 0.0){
+      vec3 bw = dzL(uv, 5.0);
+      float lw = dot(bw, LUMA);
+      c += (bw - vec3(lw)) * u_dzBleed * 1.1 + bw * bw * u_dzBleed * 0.10;
+    }
+    if (u_dzGlow > 0.0){
+      float gm = u_dzGlowMode < 0.5 ? 1.0 : floor(u_dzGlowMode + 0.5);
+      vec3 gb = dzL(uv, 3.0);
+      float gl2 = dot(gb, LUMA);
+      if (gm == 2.0){
+        c = mix(c, 1.0 - (1.0 - c) * (1.0 - clamp(gb * 0.85, 0.0, 1.0)), u_dzGlow * 0.85);
+        c = mix(c, gb, u_dzGlow * 0.22);
+        c += (1.0 - c) * 0.05 * u_dzGlow;
+      } else {
+        vec3 gc = gb * smoothstep(0.2, 0.85, gl2);
+        if (gm == 3.0){ vec3 tc = hue2rgb(u_dzGlowHue / 360.0); gc = mix(gc, tc * smoothstep(0.12, 0.8, gl2) * 1.1, 0.8); }
+        c = 1.0 - (1.0 - c) * (1.0 - clamp(gc * u_dzGlow, 0.0, 1.0));
+        c = mix(c, gb, u_dzGlow * 0.15);
+      }
+    }
+    if (u_dzHal > 0.0){
+      vec3 hb = dzL(uv, 4.0);
+      c += hue2rgb(u_dzHalHue / 360.0) * (1.0 - exp(-dot(hb, LUMA) * 4.0)) * u_dzHal * 0.95;
+    }
+    float mxc = max(c.r, max(c.g, c.b));
+    if (mxc > 1.3) c *= 1.3 / mxc;           // las luces hinchadas pasan de 1: se reducen conservando su color, no se recortan canal a canal
+    c = max(c, 0.0);
+  }
+#endif
 
   // Resplandor (difusión tipo filtro de niebla) y halación (aureola rojiza alrededor de las luces fuertes)
   if (u_glow > 0.0 || u_halation > 0.0){
@@ -2644,11 +2766,27 @@ ${hslCalls}
     c += g3 * curve * (u_grain * GRAIN_AMP * ampL * uGrainGain * tonalWeight(lum));
   }
 
+#ifdef DREAM
+  // GRANO de Dream: fino, casi blanco y bastante fuerte, un poco más suave en los negros. Mismo motor que el grano normal, pero su propio
+  // patrón (semilla distinta), su propio tamaño y su propia cantidad: no depende de la pestaña Grano.
+  if (u_dzGrain > 0.0){
+    vec3 cc = clamp(c, 0.0, 1.0);
+    float lum = dot(cc, LUMA);
+    vec4 gt = textureLod(uDzGrain, (d + 0.5 * uOut) / uDzG.x, uDzG.y);
+    float gmode = u_dzGrainMode < 0.5 ? 2.0 : floor(u_dzGrainMode + 0.5);
+    float colAmt = gmode > 3.5 ? 0.25 : 0.017;
+    float amul = gmode < 1.5 ? 0.8 : (gmode > 2.5 && gmode < 3.5 ? 1.6 : 1.0);
+    vec3 g3 = sqrt(1.0 - colAmt) * vec3(gt.r) + sqrt(colAmt) * gt.gba;
+    float tw = (0.30 + 0.70 * smoothstep(0.0, 0.28, lum)) * (1.0 - 0.25 * smoothstep(0.8, 1.0, lum));
+    c += g3 * (u_dzGrain * 0.085 * amul * uDzG.z * tw);
+  }
+#endif
+
   outColor = vec4(clamp(c, 0.0, 1.0), 1.0);
 }`;
 
-const UNIFORM_NAMES = ['uTex','uRes','uTexSize','uMv','uBypass','uHslAny','uOut','uRefLong','uZoom','uCenter','uDust','uGrain','uGrainTile','uGrainLod','uGrainGain','uGrainEnc','uImg','uCap','uLut','uLutAmt','uCurve','uCurveOn','uNL','uLA','uLB','uLC','uLD','uL0','uL1','uL2','uL3','uOff','uShowAll','uMask','uMaskOn','uSkinGain','uSkinReg','uSkinView', ...ALL.map(p => 'u_' + p[0])];
-function buildProg(g){
+const UNIFORM_NAMES = ['uTex','uRes','uTexSize','uMv','uBypass','uHslAny','uOut','uRefLong','uZoom','uCenter','uDust','uGrain','uDz','uDzGrain','uDzG','uGrainTile','uGrainLod','uGrainGain','uGrainEnc','uImg','uCap','uLut','uLutAmt','uCurve','uCurveOn','uNL','uLA','uLB','uLC','uLD','uL0','uL1','uL2','uL3','uOff','uShowAll','uMask','uMaskOn','uSkinGain','uSkinReg','uSkinView', ...ALL.map(p => 'u_' + p[0])];
+function buildProg(g, withDz){
   const mk = (type, src) => {
     const s = g.createShader(type); g.shaderSource(s, src); g.compileShader(s);
     if (!g.getShaderParameter(s, g.COMPILE_STATUS)) { const lg = g.getShaderInfoLog(s); console.error(lg); let gpu = ''; try { const e = g.getExtension('WEBGL_debug_renderer_info'); gpu = e ? g.getParameter(e.UNMASKED_RENDERER_WEBGL) : g.getParameter(g.VERSION); } catch (er) {} window.__shaderErr = (window.__shaderErr || 0) + 1; if (window.__shaderErr < 2) alert('Error de shader (' + ((document.querySelector('meta[name=app-version]') || {}).content || '?') + ' · ' + gpu + '):\n' + lg); }
@@ -2656,7 +2794,7 @@ function buildProg(g){
   };
   const pr = g.createProgram();
   g.attachShader(pr, mk(g.VERTEX_SHADER, VS));
-  g.attachShader(pr, mk(g.FRAGMENT_SHADER, FS));
+  g.attachShader(pr, mk(g.FRAGMENT_SHADER, withDz ? FS.replace('#version 300 es', '#version 300 es\n#define DREAM 1') : FS));
   g.linkProgram(pr);
   if (!g.getProgramParameter(pr, g.LINK_STATUS)) console.error(g.getProgramInfoLog(pr));
   g.useProgram(pr);
@@ -2665,11 +2803,13 @@ function buildProg(g){
   UNIFORM_NAMES.forEach(n => l[n] = g.getUniformLocation(pr, n));
   g.uniform1i(l.uCurve, 7);     // curvas en la unidad 7
   g.uniform1i(l.uMask, 4);      // máscara del pincel en la unidad 4
+  g.uniform1i(l.uDz, 12); g.uniform1i(l.uDzGrain, 13);     // Dream: unidades propias (distinto tipo de sampler en cada una)
   g.uniform1i(l.uLut, 3);       // sampler3D en su propia unidad (si no, comparte la 0 con uTex y WebGL rechaza el dibujo)
   return { pr, l };
 }
-const { pr: mainPr, l: loc } = buildProg(gl);
-const mainVao = gl.getParameter(gl.VERTEX_ARRAY_BINDING);
+const progBase = buildProg(gl);
+let mainPr = progBase.pr, loc = progBase.l, progDz = null;
+var mainVao = gl.getParameter(gl.VERTEX_ARRAY_BINDING);
 const tex = gl.createTexture();
 let imgStats = [0.5, 0.02, 0.98, 0.1];   // brillo medio, negro (p2), blanco (p98) y croma medio de la foto original
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3008,7 +3148,7 @@ void main(){
 }`;
 
 /* Fábrica del generador de grano. g = contexto WebGL2, T = lado de la textura, restore = deja el estado del programa principal */
-function createGrainBaker(g, T, restore){
+function createGrainBaker(g, T, restore, opts){
   const lv = Math.floor(Math.log2(T)) + 1;
   const S = { out: null, w0: null, w1: null, h1: null, h2: null, cl: null, clT: null, fbo: null, pr: null, key: '', sd: [1] };
   const mkTex = levels => {
@@ -3063,7 +3203,7 @@ function createGrainBaker(g, T, restore){
     const ok = g.checkFramebufferStatus(g.FRAMEBUFFER) === g.FRAMEBUFFER_COMPLETE;
     g.bindFramebuffer(g.FRAMEBUFFER, null);
     if (!ok) throw new Error('Este navegador no puede generar el grano (texturas de coma flotante no disponibles)');
-    S.w0 = noise(1);
+    S.w0 = noise((opts && opts.seed) || 1);
   }
   const gk = (sig, R) => { const a = new Float64Array(2 * R + 1); let s = 0;
     for (let k = -R; k <= R; k++) { const w = Math.exp(-k * k / (2 * sig * sig)); a[k + R] = w; s += w; }
@@ -3093,7 +3233,7 @@ function createGrainBaker(g, T, restore){
     if (!S.out) init();
     const D = GRAIN_DOG;
     const sg = 2.3e-4 * L * e.grainSize * (1.45 - 0.9 * e.grainRough) * (0.85 + 0.5 * e.grainSoft);   // sigma en px de imagen
-    const m = Math.min(12, Math.max(0.45, sg / (2.3e-4 * GRAIN_REF)));       // tamaño relativo al nivel 1 de VSCO a 4032 px
+    const m = Math.min(12, Math.max((opts && opts.mMin) || 0.45, sg / (2.3e-4 * GRAIN_REF)));       // tamaño relativo al nivel 1 de VSCO a 4032 px
     const wc = e.grainClump * 0.9, outl = e.grainOutlier;
     const key = [m.toFixed(3), wc.toFixed(3), outl.toFixed(3)].join('|');
     if (key !== S.key) {
@@ -3138,6 +3278,204 @@ function createGrainBaker(g, T, restore){
 }
 const mainGrain = createGrainBaker(gl, GRAIN_T, () => { gl.useProgram(mainPr); gl.bindVertexArray(mainVao); gl.activeTexture(gl.TEXTURE0); });
 
+/* ====================== DREAM: MOTOR ======================
+   El desenfoque de Dream no se calcula en el shader principal: se hornea aparte, UNA vez por cambio de sus ajustes, en una textura de
+   baja resolución (lado largo <= 1024) con seis capas:
+     0, 1, 2  desenfoque a 1/3, 2/3 y todo el radio (el shader principal mezcla entre la foto nítida y estos niveles según la zona:
+              bordes, banda inclinada, tonos; así el radio variable no cuesta nada extra)
+     3        resplandor, 4 halación, 5 sangrado de color
+   Cada punto lee la foto original en la capa de mipmap que corresponde a su separación (muestreo en espiral con giro aleatorio por píxel),
+   así el coste NO depende del radio ni del tamaño de la foto (una exportación de 48 Mpx cuesta lo mismo que la vista) y la vista previa y la
+   exportación dan EL MISMO desenfoque (el radio es una fracción del lado largo). Las luces pesan más al promediar («Luz expansiva»):
+   las lámparas se hinchan en manchas, como en un desenfoque de lente real. Modos: 1 Suave, 2 Sueño, 3 Inclinado, 4 Fantasma, 5 Lente, 6 Movimiento. */
+const DZ_RES = 1024, DZ_LAYERS = 6;
+const DZ_FS = `#version 300 es
+precision highp float; precision highp int;
+in vec2 vUv; out vec4 outColor;
+uniform sampler2D uTex;
+uniform sampler2D uPk;   // mapa de luces aisladas (se calcula una vez por foto)
+uniform vec2 uTexSize;
+uniform vec2 uDst;
+uniform float uRad;      // radio en píxeles de la foto original
+uniform int uKind;       // 0 gaussiano, 1 disco (lente), 2 línea (movimiento), 3 fantasma, 4 sueño (dos gaussianas)
+uniform vec2 uDir;       // dirección (movimiento, fantasma)
+uniform float uBloom;    // peso extra de las luces
+uniform float uPeak;     // 1 = solo se guardan las luces puntuales (halación)
+uniform float uThr;      // umbral de esas luces
+const vec3 LUMA = vec3(0.2126, 0.7152, 0.0722);
+const float GA = 2.39996323;
+float hash(vec2 p){ p = fract(p * vec2(443.897, 441.423)); p += dot(p, p.yx + 19.19); return fract((p.x + p.y) * p.x); }
+vec3 tap(vec2 uv, vec2 o, float lod){ return textureLod(uTex, uv + o / uTexSize, lod).rgb; }
+float wt(vec3 s){ if (uPeak > 0.5) return 1.0; float l = dot(s, LUMA); return 1.0 + uBloom * 14.0 * l * l * l; }
+// «Luz expansiva»: una luz pequeña y muy brillante respecto a lo que la rodea (el sol, una farola, un neón) conserva su brillo al
+// desenfocarse y se hincha en una mancha luminosa, como una luz quemada fotografiada fuera de foco. El cielo (brillo parejo) no se toca.
+vec3 prep(vec3 s, vec2 uv, vec2 o, float lod){
+  if (uBloom <= 0.0) return s;
+  float l = dot(s, LUMA);
+  float pk = textureLod(uPk, uv + o / uTexSize, 0.0).r;        // cuánto destaca este punto sobre TODO su entorno (una luz suelta, no el borde de un cielo claro)
+  if (uPeak > 0.5){
+    float th = mix(0.25, 0.85, uThr);
+    float k = smoothstep(0.03, 0.22, pk) * smoothstep(th - 0.2, th + 0.15, l);
+    return s * k * (1.0 + uBloom * 12.0);
+  }
+  float k = smoothstep(0.05, 0.28, pk) * smoothstep(0.3, 0.7, l);
+  return s * (1.0 + uBloom * 22.0 * k);
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy / uDst;
+  float rot = hash(gl_FragCoord.xy) * 6.2831853;
+  float R = max(uRad, 0.0);
+  if (uKind == 5){
+    // mapa de luces aisladas: brillo del punto menos el MÁXIMO de su entorno en un anillo (si en alguna dirección sigue igual de claro, es borde de una zona clara, no una luz)
+    float b = max(0.0, log2(max(uTexSize.x, uTexSize.y) / max(uDst.x, uDst.y)));
+    float l0 = dot(textureLod(uTex, uv, b + 0.5).rgb, LUMA);
+    float pkv = 0.0;
+    for (int ri = 0; ri < 2; ri++){
+      float rho = (ri == 0 ? 0.014 : 0.034) * max(uTexSize.x, uTexSize.y);
+      float lodr = b + (ri == 0 ? 1.0 : 2.2);
+      float mx = 0.0;
+      for (int k = 0; k < 8; k++){
+        float a = float(k) * 0.7853982 + 0.3;
+        mx = max(mx, dot(textureLod(uTex, uv + rho * vec2(cos(a), sin(a)) / uTexSize, lodr).rgb, LUMA));
+      }
+      pkv = max(pkv, l0 - mx);
+    }
+    outColor = vec4(clamp(pkv, 0.0, 1.0), l0, 0.0, 1.0);
+    return;
+  }
+  vec3 acc = vec3(0.0); float ws = 0.0;
+  if (uKind == 2){
+    const int N = 44;
+    float lod = max(0.0, log2(2.0 * R / float(N)) + 0.3);
+    for (int i = 0; i < N; i++){
+      float t = ((float(i) + 0.5 + (hash(gl_FragCoord.xy + float(i)) - 0.5) * 0.9) / float(N)) * 2.0 - 1.0;
+      vec2 o = uDir * (t * R);
+      vec3 s = tap(uv, o, lod);
+      float w = wt(s); acc += prep(s, uv, o, lod) * w; ws += w;
+    }
+  } else if (uKind == 3){
+    float rho = max(1.0, 0.14 * R);
+    float lod = max(0.0, log2(rho * 0.55));
+    for (int k = 0; k < 3; k++){
+      vec2 cen = k == 0 ? vec2(0.0) : (k == 1 ? uDir * R : -uDir * R * 0.55);
+      float kw = k == 0 ? 0.46 : (k == 1 ? 0.34 : 0.20);
+      for (int j = 0; j < 12; j++){
+        float u = (float(j) + 0.5) / 12.0, a = float(j) * GA + rot + float(k);
+        vec2 o = cen + rho * sqrt(u) * vec2(cos(a), sin(a));
+        vec3 s = tap(uv, o, lod);
+        float w = wt(s) * kw; acc += prep(s, uv, o, lod) * w; ws += w;
+      }
+    }
+  } else {
+    const int N = 60;
+    for (int i = 0; i < N; i++){
+      float u = (float(i) + 0.5) / float(N), a = float(i) * GA + rot, r, w2 = 1.0;
+      if (uKind == 1){ r = R * sqrt(u); w2 = 0.75 + 0.5 * smoothstep(0.6, 1.0, r / max(R, 1e-3)); }
+      else if (uKind == 4){ float sg = (i & 1) == 0 ? 0.32 * R : 0.80 * R; r = sg * sqrt(-2.0 * log(1.0 - u * 0.985)); }
+      else { r = 0.45 * R * sqrt(-2.0 * log(1.0 - u * 0.985)); }
+      float lod = max(0.0, log2(0.213 * max(r, 0.3 * R)));
+      vec2 o = r * vec2(cos(a), sin(a));
+      vec3 s = tap(uv, o, lod);
+      float w = wt(s) * w2; acc += prep(s, uv, o, lod) * w; ws += w;
+    }
+  }
+  outColor = vec4(acc / max(ws, 1e-4), 1.0);
+}`;
+const dz = { pr: null, l: null, fbo: null, tex: null, w: 0, h: 0, keys: [], tok: '', half: true, pk: null, fboPk: null, pkTok: '' };
+function dzTex(){ return dz.tex; }
+function dzInit(){
+  gl.getExtension('EXT_color_buffer_float'); gl.getExtension('EXT_color_buffer_half_float');
+  const mk = (type, s) => { const sh = gl.createShader(type); gl.shaderSource(sh, s); gl.compileShader(sh); if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(sh)); return sh; };
+  const pr = gl.createProgram();
+  gl.attachShader(pr, mk(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, mk(gl.FRAGMENT_SHADER, DZ_FS));
+  gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(pr));
+  const l = {}; ['uTex', 'uTexSize', 'uDst', 'uRad', 'uKind', 'uDir', 'uBloom', 'uPeak', 'uThr', 'uPk'].forEach(n => { l[n] = gl.getUniformLocation(pr, n); });
+  dz.pr = pr; dz.l = l; dz.fbo = gl.createFramebuffer(); dz.fboPk = gl.createFramebuffer();
+}
+function dzAlloc(w, h){
+  if (dz.tex) gl.deleteTexture(dz.tex);
+  let t = null, ok = false;
+  for (const fmt of [gl.RGBA16F, gl.RGBA8]) {
+    t = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE12); gl.bindTexture(gl.TEXTURE_2D_ARRAY, t);
+    gl.texStorage3D(gl.TEXTURE_2D_ARRAY, 1, fmt, w, h, DZ_LAYERS);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, dz.fbo);
+    gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, t, 0, 0);
+    ok = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+    if (ok) { dz.half = fmt === gl.RGBA16F; break; }
+    gl.deleteTexture(t);          // sin texturas de coma flotante renderizables: se prueba con 8 bits
+  }
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D_ARRAY, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  if (dz.pk) gl.deleteTexture(dz.pk);
+  dz.pk = gl.createTexture(); gl.activeTexture(gl.TEXTURE5); gl.bindTexture(gl.TEXTURE_2D, dz.pk);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  dz.pkTok = '';
+  dz.tex = t; dz.w = w; dz.h = h; dz.keys = [];
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.activeTexture(gl.TEXTURE0);
+}
+const DZ_KIND = [0, 0, 4, 0, 3, 1, 2];      // modo (1..6) -> tipo de núcleo del pre-pase
+function dzBake(e){
+  if (!dz.pr) dzInit();
+  const long = Math.max(texW, texH), sc = Math.min(1, DZ_RES / long), w = Math.max(2, Math.round(texW * sc)), h = Math.max(2, Math.round(texH * sc));
+  const tok = imgToken + '|' + texW + 'x' + texH;
+  if (!dz.tex || dz.w !== w || dz.h !== h || dz.tok !== tok) { dzAlloc(w, h); dz.tok = tok; }
+  const md = e.dzMode < 0.5 ? 1 : Math.round(e.dzMode), ang = e.dzAngle * Math.PI / 180, dir = [Math.cos(ang), Math.sin(ang)];
+  const jobs = [];
+  if (e.dzBlur > 0) {
+    const R = 0.10 * long * e.dzBlur, key = ['b', md, R.toFixed(2), e.dzAngle, e.dzBloom.toFixed(3)].join('|');
+    for (let i = 0; i < 3; i++) jobs.push({ layer: i, key: key + '|' + i, kind: DZ_KIND[md] === undefined ? 0 : DZ_KIND[md], rad: R * (i + 1) / 3, bloom: e.dzBloom, dir });
+  }
+  if (e.dzGlow > 0) jobs.push({ layer: 3, key: 'g|' + e.dzGlowSize.toFixed(3), kind: 0, rad: long * (0.015 + 0.08 * e.dzGlowSize), bloom: 0.35, dir });
+  if (e.dzHal > 0) jobs.push({ layer: 4, key: 'h|' + e.dzHalSize.toFixed(3) + '|' + e.dzHalThr.toFixed(3), kind: 0, rad: long * (0.010 + 0.05 * e.dzHalSize), bloom: 0.6, peak: 1, thr: e.dzHalThr, dir });
+  if (e.dzBleed > 0) jobs.push({ layer: 5, key: 'c', kind: 0, rad: long * 0.025, bloom: 0, dir });
+  let ran = false, onMain = false;
+  const begin = (pkPass) => {
+    gl.viewport(0, 0, dz.w, dz.h);
+    gl.useProgram(dz.pr); gl.bindVertexArray(mainVao);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.activeTexture(gl.TEXTURE5); gl.bindTexture(gl.TEXTURE_2D, pkPass ? tex : dz.pk); gl.activeTexture(gl.TEXTURE0);     // al calcular el mapa no se puede leer a la vez (bucle de realimentación)
+    gl.uniform1i(dz.l.uTex, 0); gl.uniform1i(dz.l.uPk, 5); gl.uniform2f(dz.l.uTexSize, texW, texH); gl.uniform2f(dz.l.uDst, dz.w, dz.h);
+  };
+  if (jobs.some(j => dz.keys[j.layer] !== j.key) && dz.pkTok !== tok) {
+    // el mapa de luces aisladas se calcula una vez por foto (no depende de los ajustes)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, dz.fboPk);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dz.pk, 0);
+    begin(true); gl.uniform1i(dz.l.uKind, 5); gl.uniform1f(dz.l.uRad, 0); gl.uniform1f(dz.l.uBloom, 0); gl.uniform1f(dz.l.uPeak, 0); gl.uniform1f(dz.l.uThr, 0);
+    gl.uniform2f(dz.l.uDir, 1, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    dz.pkTok = tok; ran = true;
+  }
+  for (const j of jobs) {
+    if (dz.keys[j.layer] === j.key) continue;
+    if (!onMain) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, dz.fbo);
+      begin();
+      ran = true; onMain = true;
+    }
+    gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, dz.tex, 0, j.layer);
+    gl.uniform1f(dz.l.uRad, j.rad); gl.uniform1i(dz.l.uKind, j.kind);
+    gl.uniform2f(dz.l.uDir, j.dir[0], j.dir[1]); gl.uniform1f(dz.l.uBloom, j.bloom);
+    gl.uniform1f(dz.l.uPeak, j.peak || 0); gl.uniform1f(dz.l.uThr, j.thr || 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    dz.keys[j.layer] = j.key;
+  }
+  if (ran) { gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.useProgram(mainPr); gl.bindVertexArray(mainVao); gl.activeTexture(gl.TEXTURE0); }
+}
+/* Grano de Dream: el mismo generador que el grano normal, con tamaño mínimo menor (casi blanco, ~1 px) y su propio patrón. */
+const dzGrainBaker = createGrainBaker(gl, GRAIN_T, () => { gl.useProgram(mainPr); gl.bindVertexArray(mainVao); gl.activeTexture(gl.TEXTURE0); }, { mMin: 0.12, seed: 7 });
+function dzGrainParams(e){
+  const gm = e.dzGrainMode < 0.5 ? 2 : Math.round(e.dzGrainMode);
+  // m = 0.6 a 1200 px de lado largo (casi blanco: correlación entre píxeles vecinos ≈ 0.2, como en los ejemplos); escala con la foto como el grano normal
+  return { grainSize: e.dzGrainSize * (gm === 3 ? 1.1 : gm === 1 ? 0.9 : 1) * 3.06, grainRough: 0.75, grainSoft: 0, grainClump: 0, grainOutlier: 0 };
+}
+
 /* ====================== FILTROS DE VSCO (tablas de color 3D) ======================
    Medidos con tu carta de color (96 parches, 12 x 8): color de entrada -> color de salida de cada filtro. El desplazamiento se interpola
    con funciones de base radial cúbicas (grado 1) y se guarda como tabla de 25 x 25 x 25 (RGB 8 bits, R varía más rápido, luego G, luego B).
@@ -3171,7 +3509,13 @@ function draw(full){
   const e = eff();
   const G = (full === true || !editCrop) ? curGeom : viewG;   // en la herramienta Recortar se pinta la foto entera
   const zNow = full === true ? 1 : view.zs;
+  { const needDz = e.dzBlur > 0 || e.dzBleed > 0 || e.dzGlow > 0 || e.dzHal > 0 || e.dzGrain > 0 || e.dzAberr > 0;
+    if (needDz && !progDz) progDz = buildProg(gl, true);
+    const pp = needDz ? progDz : progBase; mainPr = pp.pr; loc = pp.l; gl.useProgram(mainPr); gl.bindVertexArray(mainVao); }
   const gp = e.grain > 0 ? mainGrain.ensure(e, Math.max(G.w, G.h), zNow) : null;   // puede cambiar de programa/viewport: va antes de configurar nada
+  const dzOn = e.dzBlur > 0 || e.dzBleed > 0 || e.dzGlow > 0 || e.dzHal > 0;
+  if (dzOn) dzBake(e);
+  const dzg = e.dzGrain > 0 ? dzGrainBaker.ensure(dzGrainParams(e), Math.max(G.w, G.h), zNow) : null;
   gl.viewport(0, 0, cv.width, cv.height);
   gl.uniform1i(loc.uTex, 0);
   gl.uniform2f(loc.uRes, cv.width, cv.height);
@@ -3217,6 +3561,12 @@ function draw(full){
     gl.uniform1i(loc.uGrain, 2); gl.uniform1f(loc.uGrainTile, GRAIN_T);
     gl.uniform1f(loc.uGrainLod, gp.lod); gl.uniform1f(loc.uGrainGain, gp.gain);
     gl.uniform2f(loc.uGrainEnc, 1, 0);
+    gl.activeTexture(gl.TEXTURE0);
+  }
+  if (dzOn) { gl.activeTexture(gl.TEXTURE12); gl.bindTexture(gl.TEXTURE_2D_ARRAY, dzTex()); gl.activeTexture(gl.TEXTURE0); }
+  if (dzg) {
+    gl.activeTexture(gl.TEXTURE13); gl.bindTexture(gl.TEXTURE_2D, dzGrainBaker.tex);
+    gl.uniform4f(loc.uDzG, GRAIN_T, dzg.lod, dzg.gain, 0);
     gl.activeTexture(gl.TEXTURE0);
   }
   layersUpload();
@@ -3612,8 +3962,8 @@ var imgToken = 0, uiReady = false;
 const refreshers = [];
 const P = id => document.getElementById('tab-' + id);
 const signed = n => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n);
-const HUE_IDS = new Set(['leakHue', 'shHue', 'hiHue', 'midHue']);      // con pista de color
-const NOMOD_IDS = new Set([...HUE_IDS, 'leakAngle', 'leakType', 'leakSeed', 'dustSeed']);                 // no cuentan como «editado» por sí solos
+const HUE_IDS = new Set(['leakHue', 'shHue', 'hiHue', 'midHue', 'dzTintHue', 'dzGlowHue', 'dzHalHue']);      // con pista de color
+const NOMOD_IDS = new Set([...HUE_IDS, 'leakAngle', 'leakType', 'leakSeed', 'dustSeed', 'dzMode', 'dzAngle', 'dzFocusPos', 'dzGlowMode', 'dzGrainMode']);                 // no cuentan como «editado» por sí solos
 const FMT = {
   exposure: v => (v > 0.004 ? '+' : v < -0.004 ? '−' : '') + Math.abs(v).toFixed(2),
   grainSize: v => v.toFixed(2) + '×',
@@ -3673,7 +4023,7 @@ function addGroup(panel, title, open, items){
 const plainSliders = (panel, ids) => { const w = document.createElement('div'); w.style.paddingTop = '4px'; ids.forEach(id => { const p = byId[id]; makeSlider(w, p[1], p[2], p[3], p[4], p[5], () => getE(id), v => { setE(id, v); if (GRAIN_IDS.includes(id)) clearGallery(); }, { fmt: FMT[id], id }); }); panel.appendChild(w); return w; };
 
 /* Herramientas (columna izquierda) */
-const TAB_META = { filters: 'Filtros', adjust: 'Ajustes', curves: 'Curvas', grain: 'Grano', fx: 'Efectos', layers: 'Capas', brush: 'Pincel', crop: 'Recortar' };
+const TAB_META = { filters: 'Filtros', adjust: 'Ajustes', curves: 'Curvas', grain: 'Grano', fx: 'Efectos', dream: 'Dream', layers: 'Capas', brush: 'Pincel', crop: 'Recortar' };
 const TAB_ACT = {};                       // acción de cabecera de cada herramienta: { icon, label, fn }
 let curTab = 'filters';
 const pAct = document.getElementById('pAct');
@@ -3689,7 +4039,9 @@ function setTab(t){
   if (a) { pAct.querySelector('use').setAttribute('href', '#' + a.icon); pAct.querySelector('span').textContent = a.label; }
   document.getElementById('pbody').scrollTop = 0;
   if (t === 'curves') drawCurveUI();
+  if (t === 'dream' && typeof dzRender === 'function') dzRender();
   if (t === 'filters') ensureThumbs();
+  else if (t === 'dream') setTimeout(ensureThumbs, 60);      // primero se pinta la pestaña; las miniaturas (y la primera compilación del shader de Dream) llegan justo después
   setEditCrop(t === 'crop');
   brushTab(t === 'brush');
   drawGuides();
@@ -4121,7 +4473,7 @@ function filterGroups(){
     ['mine', 'Míos', Object.entries(userPresets).map(([n, d]) => [n, d, ['#555', '#aaa'], true])],
   ];
 }
-const filterEntries = () => [['Ninguno', null]].concat(filterGroups().flatMap(g => g[2].map(([n, d]) => [n, d])));
+const filterEntries = () => [['Ninguno', null]].concat(filterGroups().flatMap(g => g[2].map(([n, d]) => [n, d])), (curTab === 'dream' && typeof DZ_LOOKS !== 'undefined' ? DZ_LOOKS : []).map(l => [l[1], l[3]]));
 let tileEls = [];
 function renderPills(){
   pillsEl.innerHTML = '';
@@ -4136,6 +4488,7 @@ function renderPills(){
 function markChips(){
   tileEls.forEach(([name, el]) => el.classList.toggle('on', name === 'Ninguno' ? !active : !!active && active.name === name));
   document.getElementById('strengthBox').classList.toggle('off', !active);
+  if (typeof dzMark === 'function') dzMark();
 }
 function renderChips(){
   if (fCat === 'mine' && !Object.keys(userPresets).length) fCat = 'all';
@@ -4211,7 +4564,7 @@ async function saveLook(){
   userPresets[n] = o; saveUser(); delete thumbURL[n];
   layers = layers.filter(L => L.kind === 'photo');        // las capas de luz y polvo ya van dentro del look: se vuelven a poner desde él
   active = { name: n, data: o }; strength = 1; fGrain = 1; Object.assign(vals, DEF); clearGallery(); lookLayers();      // fGrain = 1: el grano ya va dentro del look
-  refreshers.forEach(f => f()); fCat = 'mine'; renderPills(); renderChips(); requestDraw(); ensureThumbs();
+  refreshers.forEach(f => f()); fCat = 'mine'; renderPills(); renderChips(); if (typeof dzRender === 'function') dzRender(); requestDraw(); ensureThumbs();
 }
 TAB_ACT.filters = { icon: 'i-bookmark', label: 'Guardar look', fn: saveLook };
 renderPills(); renderChips();
@@ -4230,7 +4583,7 @@ function renderThumbs(list){
     cv.width = w; cv.height = h; view.fit = false; view.zs = k; view.cx = 0; view.cy = 0;
     for (const [name, data] of list) {
       let d = null;
-      if (data) { d = { ...data }; for (const id of GRAIN_IDS) delete d[id]; delete d.dust; }
+      if (data) { d = { ...data }; for (const id of GRAIN_IDS) delete d[id]; delete d.dust; delete d.dzGrain; }
       active = d ? { name, data: d } : null;
       draw();
       octx.clearRect(0, 0, S, S);
@@ -4246,7 +4599,7 @@ function renderThumbs(list){
   }
 }
 function ensureThumbs(){
-  if (!hasImage || !curGeom || curTab !== 'filters') return;
+  if (!hasImage || !curGeom || (curTab !== 'filters' && curTab !== 'dream')) return;
   const sig = imgToken + '|' + JSON.stringify(geo);
   if (sig !== thumbSig) for (const k in thumbURL) delete thumbURL[k];
   thumbSig = sig;
@@ -4254,6 +4607,7 @@ function ensureThumbs(){
   if (!todo.length) return;
   renderThumbs(todo);
   renderChips();
+  if (typeof dzRender === 'function') dzRender();
 }
 
 /* Recortar: el marco se mueve y se redimensiona sobre la foto entera; el resultado se ve al salir de la herramienta */
@@ -4907,7 +5261,7 @@ function updateDots(){
   const mod = id => !NOMOD_IDS.has(id) && Math.abs(E[id] - DEF[id]) > 1e-6;
   const set = (t, on) => { const el = document.querySelector('#rail .rt[data-tab="' + t + '"]'); if (el) el.classList.toggle('mod', !!on); };
   set('filters', active); set('adjust', ADJ_IDS.some(mod) || (isDock() && !curvesAllId(curves)));
-  if (window.__cvSync) __cvSync(); set('curves', !curvesAllId(curves)); set('grain', GRAIN_IDS.some(mod)); set('fx', FX_IDS.some(mod));
+  if (window.__cvSync) __cvSync(); set('curves', !curvesAllId(curves)); set('grain', GRAIN_IDS.some(mod)); set('fx', FX_IDS.some(mod)); set('dream', (typeof DZ_IDS !== 'undefined' && DZ_IDS.some(mod)) || (!!active && typeof isDreamLook === 'function' && isDreamLook(active.name)));
   set('brush', !!(maskObj && maskObj.any));
   set('layers', layers.length > 0);
   set('crop', geo.angle !== 0 || geo.aspect !== 'orig' || !!geo.rect || (geo.q % 4) !== 0 || geo.flip);
@@ -4947,7 +5301,7 @@ const appEl = document.getElementById('app'), sideEl = document.getElementById('
 const mqDock = matchMedia('(max-width:860px), (max-height:500px) and (orientation:landscape)');
 const isDock = () => mqDock.matches;
 var sheetState = 0, dockUser = false, focusEls = [], focusTool = null, focusGrp = null, focusList = [], focusSnap = null, focusT = 0;
-var adjSel = 'Luz', grainSel = 'basic';
+var adjSel = 'Luz', grainSel = 'basic', dzSel = 'looks';
 const mfName = document.getElementById('mfName'), mfMenu = document.getElementById('mfMenu');
 function setSheet(n){
   if (n !== sheetState || !appEl.classList.contains('sh' + n)) {
@@ -5032,6 +5386,7 @@ const PAIRS = [['temp', 'tint', 'Balance de blancos'], ['skin', 'skinRange', 'To
 /* Fila de chips (categorías) y botón de acción de la pestaña (Restablecer / Guardar look), fija a la derecha */
 const ADJ_CHIPS = ['Luz', 'Color', 'Detalle', 'Look', 'Tono dividido', 'Curvas'];          // Curvas, la última
 const GRAIN_CHIPS = [['basic', 'Básico'], ['tipos', 'Tipos'], ['fino', 'Ajuste fino']];
+const DREAM_CHIPS = [['looks', 'Looks'], ['blur', 'Desenfoque'], ['zone', 'Zona'], ['grain', 'Grano'], ['glow', 'Resplandor'], ['hal', 'Halación'], ['color', 'Color']];
 function applyChipState(){}          // (antes cada chip enseñaba un solo grupo; ahora todos van en una tira continua y el chip sigue al scroll)
 
 /* Tira continua: los chips de Ajustes y de Grano son «marcadores» de una sola tira horizontal. Tocar un chip lleva la tira a su grupo y,
@@ -5044,10 +5399,11 @@ function anchorRect(el){          // posición de un grupo aunque sea «display:
 }
 const STRIP = {
   adjust: () => ADJ_CHIPS.map(k => [k, document.querySelector('#tab-adjust > details.grp[data-g="' + k + '"]')]),
-  grain: () => GRAIN_CHIPS.map(([k]) => [k, [...document.querySelectorAll('#tab-grain > .g-' + k)].find(e => anchorRect(e))])
+  grain: () => GRAIN_CHIPS.map(([k]) => [k, [...document.querySelectorAll('#tab-grain > .g-' + k)].find(e => anchorRect(e))]),
+  dream: () => DREAM_CHIPS.map(([k]) => [k, k === 'looks' ? document.getElementById('dzLooks') : document.querySelector('#tab-dream > details.grp[data-g="' + k + '"]')])
 };
 function setStripSel(t, k){
-  if (t === 'adjust') adjSel = k; else if (t === 'grain') grainSel = k;
+  if (t === 'adjust') adjSel = k; else if (t === 'grain') grainSel = k; else if (t === 'dream') dzSel = k;
   document.querySelectorAll('#crchips .chip').forEach(c => {
     const on = c.dataset.k === k; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on));
     if (on) { const box = c.parentNode, want = Math.max(0, c.offsetLeft - (box.clientWidth - c.offsetWidth) / 2); if (Math.abs(box.scrollLeft - want) > 4) box.scrollTo({ left: want, behavior: 'smooth' }); }
@@ -5067,7 +5423,7 @@ function spyUpdate(){
   const items = STRIP[curTab]().filter(i => i[1] && anchorRect(i[1])), sr = sec.getBoundingClientRect(); if (!items.length) return;
   let cur = items[0][0];
   items.forEach(([k, el]) => { if (anchorRect(el).left - sr.left <= 64) cur = k; });
-  const sel = curTab === 'adjust' ? adjSel : grainSel;
+  const sel = curTab === 'adjust' ? adjSel : curTab === 'dream' ? dzSel : grainSel;
   if (cur !== sel) setStripSel(curTab, cur);
 }
 pbodyEl.addEventListener('scroll', () => { if (!spyRaf) spyRaf = requestAnimationFrame(spyUpdate); }, { capture: true, passive: true });
@@ -5076,6 +5432,7 @@ function crowItems(t){
   if (t === 'filters') return CATS.filter(([k]) => k !== 'mine' || Object.keys(userPresets).length).map(([k, l]) => [l, fCat === k, () => { fCat = k; renderPills(); renderChips(); }, k]);
   if (t === 'adjust') return ADJ_CHIPS.map(k => [k, adjSel === k, () => stripGo('adjust', k), k]);
   if (t === 'grain') return GRAIN_CHIPS.map(([k, l]) => [l, grainSel === k, () => stripGo('grain', k), k]);
+  if (t === 'dream') return DREAM_CHIPS.map(([k, l]) => [l, dzSel === k, () => stripGo('dream', k), k]);
   return [[TAB_META[t] || '', true, null, t]];
 }
 function crowRender(){
@@ -5117,13 +5474,13 @@ function focusSetOf(t){
   if (t.matches('details.grp')) return { els: [...t.querySelectorAll('.grp-body .sl, .grp-body .seedrow, .grp-body .pills')], name: focusName(t), grp: t };
   let els = [t], name = focusName(t);
   if (t.dataset.set) els = t.dataset.set.split(',').map(id => t.parentNode.querySelector('.sl[data-id="' + id + '"]')).filter(Boolean);
-  if (t.closest('#strengthBox')) name = active ? active.name.replace(/^VSCO /, '') : 'Intensidad';
+  if (t.closest('#strengthBox, #dzStrength')) name = active ? active.name.replace(/^VSCO /, '') : 'Intensidad';
   const bands = t.parentNode.querySelector(':scope > .bands'); if (bands) els.push(bands);
   return { els, name, grp: null };
 }
 function focusOpenList(){        // las herramientas que se ven en la tira (para saltar de una a otra desde el nombre)
   const sec = document.querySelector('#pbody > section.on'); if (!sec) return [];
-  return [...sec.querySelectorAll('.sl, #tab-fx details.grp')].filter(e => e.offsetParent !== null && !e.classList.contains('sub') && !e.classList.contains('off'));
+  return [...sec.querySelectorAll('.sl, #tab-fx details.grp, #tab-dream details.grp')].filter(e => e.offsetParent !== null && !e.classList.contains('sub') && !e.classList.contains('off'));
 }
 function fitAndRedraw(){ if (hasImage) applyGeom(); }
 function openFocus(t, keepList){
@@ -5172,7 +5529,7 @@ function cancelFocus(){          // ✕: deja la herramienta como estaba al abri
 }
 pbodyEl.addEventListener('click', ev => {
   if (!isDock() || focusEls.length) return;
-  const sm = ev.target.closest('#tab-fx details.grp > summary');
+  const sm = ev.target.closest('#tab-fx details.grp > summary, #tab-dream details.grp > summary');
   if (sm) { ev.preventDefault(); openFocus(sm.parentNode); return; }
   const sl = ev.target.closest('.sl');
   if (sl && !sl.classList.contains('off') && !sl.classList.contains('sub')) openFocus(sl);
@@ -5211,7 +5568,7 @@ addEventListener('click', ev => { if (!mfMenu.hidden && !mfMenu.contains(ev.targ
   mt.onclick = () => { pop.hidden = true; const a = TAB_ACT[curTab]; if (a && a.label === 'Restablecer') a.fn(); };
   const disarm = () => { clearTimeout(t); rs.classList.remove('arm'); rs.querySelector('span').textContent = 'Restablecer todo'; };
   const close = () => { pop.hidden = true; disarm(); };
-  btn.onclick = ev => { ev.stopPropagation(); const a = TAB_ACT[curTab]; mt.hidden = !(a && a.label === 'Restablecer'); if (!mt.hidden) mt.querySelector('span').textContent = 'Restablecer ' + ({ adjust: 'ajustes', grain: 'grano', fx: 'efectos', crop: 'recorte' }[curTab] || 'esta pestaña'); pop.hidden = !pop.hidden; if (pop.hidden) disarm(); };
+  btn.onclick = ev => { ev.stopPropagation(); const a = TAB_ACT[curTab]; mt.hidden = !(a && a.label === 'Restablecer'); if (!mt.hidden) mt.querySelector('span').textContent = 'Restablecer ' + ({ adjust: 'ajustes', grain: 'grano', fx: 'efectos', crop: 'recorte', dream: 'Dream' }[curTab] || 'esta pestaña'); pop.hidden = !pop.hidden; if (pop.hidden) disarm(); };
   rs.onclick = () => {
     if (!rs.classList.contains('arm')) { rs.classList.add('arm'); rs.querySelector('span').textContent = '¿Seguro? Toca otra vez'; t = setTimeout(disarm, 3200); return; }
     close(); resetAllEdits();
@@ -6062,6 +6419,91 @@ dlgEl.addEventListener('keydown', ev => {
   }
 });
 dlgEl.addEventListener('keyup', ev => ev.stopPropagation());
+
+/* ====================== DREAM (pestaña) ======================
+   Arriba, looks automáticos que lo hacen todo a la vez (color + desenfoque + resplandor + halación + grano de Dream); debajo, las piezas
+   para retocarlos o crear los tuyos: Desenfoque (6 modos), Zona (bordes, banda inclinada, tonos), Grano, Resplandor, Halación y Color.
+   Todo es independiente de Grano y Efectos (otros valores, otro motor de grano). Un look de Dream es un look más: usa la misma intensidad,
+   se guarda con «Guardar look» y sus ajustes se suman con los tuyos. */
+var DZ_IDS = ['dzBlur', 'dzMode', 'dzAngle', 'dzBloom', 'dzEdges', 'dzFocus', 'dzFocusPos', 'dzBalance', 'dzTint', 'dzTintHue', 'dzBleed', 'dzAberr',
+  'dzGlow', 'dzGlowSize', 'dzGlowMode', 'dzGlowHue', 'dzHal', 'dzHalSize', 'dzHalHue', 'dzHalThr', 'dzGrain', 'dzGrainSize', 'dzGrainMode'];
+var DZ_LOOKS = [
+  ['Noche', 'Autopista', ['#0b1030', '#e0742a'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.4, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, temp: -0.1, shHue: 235, shSat: 0.7, midHue: 262, midSat: 0.5, hiHue: 14, hiSat: 0.7, dzBlur: 0.38, dzMode: 5, dzBloom: 1, dzEdges: 0.5, dzFocus: 0.45, dzGlow: 0.65, dzGlowSize: 0.7, dzHal: 0.95, dzHalHue: 10, dzHalSize: 0.75, dzHalThr: 0.35, dzAberr: 0.5, dzBleed: 0.5, dzGrain: 0.8, dzGrainSize: 1.1 }],
+  ['Noche', 'Neón', ['#1a0b3a', '#ff4fa3'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.4, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, shHue: 270, shSat: 0.65, midHue: 300, midSat: 0.45, hiHue: 345, hiSat: 0.5, dzBlur: 0.45, dzMode: 4, dzAngle: 15, dzBloom: 0.6, dzGlow: 0.8, dzGlowMode: 3, dzGlowHue: 36, dzGlowSize: 0.6, dzHal: 1, dzHalHue: 345, dzHalSize: 0.8, dzHalThr: 0.3, dzBleed: 0.6, dzAberr: 0.45, dzGrain: 0.75, dzGrainMode: 3 }],
+  ['Noche', 'Brasas', ['#1b0a10', '#ff7a2a'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.45, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, temp: 0.3, shHue: 255, shSat: 0.6, midHue: 12, midSat: 0.55, hiHue: 20, hiSat: 0.75, dzBlur: 0.4, dzMode: 6, dzAngle: 10, dzBloom: 0.55, dzGlow: 0.75, dzGlowMode: 3, dzGlowHue: 22, dzHal: 1, dzHalHue: 6, dzHalSize: 0.8, dzHalThr: 0.3, dzBleed: 0.55, dzGrain: 0.75 }],
+  ['Niebla', 'Ventana al mar', ['#3a2d6b', '#f0a89a'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.5, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, shHue: 245, shSat: 0.75, midHue: 235, midSat: 0.6, hiHue: 15, hiSat: 0.5, dzBlur: 0.42, dzMode: 2, dzBloom: 0.5, dzTint: 0.3, dzTintHue: 250, dzGlow: 0.6, dzGlowMode: 2, dzGlowSize: 0.7, dzHal: 0.85, dzHalHue: 8, dzHalSize: 0.7, dzHalThr: 0.35, dzBleed: 0.4, dzGrain: 0.75 }],
+  ['Niebla', 'Velo nocturno', ['#10283a', '#5fb8c4'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.45, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, shHue: 200, shSat: 0.7, midHue: 215, midSat: 0.5, hiHue: 25, hiSat: 0.5, dzBlur: 0.5, dzMode: 3, dzFocus: 0.3, dzBloom: 0.5, dzGlow: 0.7, dzGlowMode: 2, dzGlowSize: 0.8, dzHal: 0.6, dzHalHue: 20, dzBleed: 0.4, dzGrain: 0.75 }],
+  ['Niebla', 'Crepúsculo', ['#2b2a66', '#ff9a73'], { fade: 0.28, whites: -0.55, highlights: -0.45, exposure: -0.4, blacks: 0.2, contrast: 0.35, saturation: 0.6, vibrance: 0.35, vignette: -0.5, shHue: 265, shSat: 0.7, midHue: 290, midSat: 0.5, hiHue: 5, hiSat: 0.5, dzBlur: 0.4, dzMode: 1, dzBloom: 0.6, dzEdges: 0.4, dzFocus: 0.4, dzGlow: 0.65, dzHal: 0.75, dzHalHue: 350, dzAberr: 0.5, dzBleed: 0.5, dzGrain: 0.8 }],
+];
+function isDreamLook(n){ return DZ_LOOKS.some(l => l[1] === n); }
+const dzUserLooks = () => Object.entries(userPresets).filter(([, d]) => DZ_IDS.some(id => id !== 'dzMode' && id in d)).map(([n, d]) => ['Míos', n, ['#26262a', '#5a5a64'], d, true]);
+
+const dzPanel = P('dream');
+dzPanel.innerHTML = '<div class="fhead"><div id="dzStrength"></div></div><div class="tgrid" id="dzLooks"></div>';
+makeSlider(document.getElementById('dzStrength'), 'Intensidad', 0, 1.5, 0.01, 1, () => strength, v => { strength = v; refreshers.forEach(f => f()); }, { fmt: v => Math.round(v * 100) + '%', nomod: true });
+var dzTileEls = [];
+function dzMark(){
+  (dzTileEls || []).forEach(([name, el]) => el.classList.toggle('on', name === 'Ninguno' ? !active : !!active && active.name === name));
+  const sb = document.getElementById('dzStrength'); if (sb) sb.classList.toggle('off', !active);
+}
+function dzRender(){
+  const box = document.getElementById('dzLooks'); box.innerHTML = ''; dzTileEls = [];
+  const add = (name, data, colors) => {
+    const b = document.createElement('button'); b.className = 'tile'; b.title = name;
+    b.innerHTML = '<span class="im"></span><span class="nm"></span>';
+    const im = b.firstChild; im.style.background = 'linear-gradient(135deg,' + colors[0] + ',' + colors[1] + ')';
+    if (thumbURL[name]) { const img = document.createElement('img'); img.alt = ''; img.src = thumbURL[name]; im.appendChild(img); }
+    b.lastChild.textContent = name;
+    b.onclick = () => {
+      if (isDock() && data && active && active.name === name && !focusEls.length) { openFocus(document.querySelector('#dzStrength .sl')); return; }      // en el móvil, tocar el look elegido abre su intensidad
+      active = data ? { name, data } : null;
+      lookLayers(); refreshers.forEach(f => f()); markChips(); requestDraw();
+    };
+    box.appendChild(b); dzTileEls.push([name, b]);
+  };
+  const head = t => { const h = document.createElement('div'); h.className = 'gh'; h.textContent = t; box.appendChild(h); };
+  add('Ninguno', null, ['#26262a', '#3a3a40']);
+  let cat = null;
+  DZ_LOOKS.concat(dzUserLooks()).forEach(([c, n, col, d]) => { if (c !== cat) { cat = c; head(c); } add(n, d, col); });
+  dzMark();
+}
+FMT.dzAngle = v => Math.round(v) + '°'; FMT.dzTintHue = FMT.dzGlowHue = FMT.dzHalHue = v => Math.round(v) + '°';
+FMT.dzGrainSize = v => v.toFixed(2) + '×';
+
+/* Selector de modo (pastillas): el valor es 1..N; 0 = «sin elegir» = el modo de partida */
+function dzPills(d, id, names, defV, label){
+  const row = document.createElement('div'); row.className = 'pills'; row.setAttribute('role', 'group'); row.setAttribute('aria-label', label);
+  const btns = names.map((t, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pill'; b.textContent = t;
+    b.onclick = () => { setE(id, i + 1); paint(); requestDraw(); };
+    row.appendChild(b); return b;
+  });
+  const paint = () => { const cur = Math.round(getE(id)) || defV; btns.forEach((b, i) => b.classList.toggle('on', i + 1 === cur)); };
+  refreshers.push(paint); paint();
+  d.lastElementChild.prepend(row);
+}
+const DZ_PIECES = [
+  ['blur', 'Desenfoque', 't-blur', [['dzBlur', 'Desenfoque'], ['dzAngle', 'Ángulo'], ['dzBloom', 'Luz expansiva']], ['dzMode', ['Suave', 'Sueño', 'Inclinado', 'Fantasma', 'Lente', 'Movimiento'], 1, 'Modo del desenfoque']],
+  ['zone', 'Zona', 't-zone', [['dzEdges', 'Solo bordes'], ['dzFocus', 'Foco'], ['dzFocusPos', 'Posición'], ['dzBalance', 'Balance']]],
+  ['grain', 'Grano', 'i-grain', [['dzGrain', 'Cantidad'], ['dzGrainSize', 'Tamaño']], ['dzGrainMode', ['Fino', 'Medio', 'Grueso', 'Con color'], 2, 'Tipo de grano']],
+  ['glow', 'Resplandor', 't-glow', [['dzGlow', 'Intensidad'], ['dzGlowSize', 'Radio'], ['dzGlowHue', 'Color']], ['dzGlowMode', ['Suave', 'Niebla', 'Color'], 1, 'Modo del resplandor']],
+  ['hal', 'Halación', 't-hal', [['dzHal', 'Intensidad'], ['dzHalSize', 'Tamaño'], ['dzHalHue', 'Color'], ['dzHalThr', 'Umbral']]],
+  ['color', 'Color', 't-bleed', [['dzBleed', 'Sangrado de color'], ['dzAberr', 'Aberración'], ['dzTint', 'Tinte del desenfoque'], ['dzTintHue', 'Tono del tinte']]],
+];
+DZ_PIECES.forEach(([k, title, icon, items, pill]) => {
+  const d = addGroup(dzPanel, title, k === 'blur', items);
+  d.dataset.g = k;
+  const s = d.querySelector('summary'); s.dataset.n = title;
+  s.insertAdjacentHTML('afterbegin', '<svg class="ic tic"><use href="#' + icon + '"/></svg>');
+  if (pill) dzPills(d, pill[0], pill[1], pill[2], pill[3]);
+});
+{
+  const n = document.createElement('p'); n.className = 'note';
+  n.textContent = 'Dream tiene su propio grano, resplandor y halación, independientes de las pestañas Grano y Efectos. Los ajustes de las otras herramientas se suman encima del look.';
+  dzPanel.appendChild(n);
+}
+TAB_ACT.dream = { icon: 'i-bookmark', label: 'Guardar look', fn: saveLook };
+dzRender();
 </script>
 
 <!-- Decodificador HEIC: libheif (LGPL-3.0, strukturag/libheif) compilado a WebAssembly con libheif-emscripten. Solo se ejecuta cuando abres un HEIC que el navegador no sabe leer. -->
